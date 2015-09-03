@@ -4,19 +4,20 @@ branches:
 install:
     - sudo add-apt-repository ppa:texlive-backports/ppa -y
     - sudo apt-get update -y
-    - sudo apt-get install texlive-latex-extra latexmk texlive-science texlive-luatex -y
+    - sudo apt-get install texlive-latex-extra texlive-fonts-extra texlive-bibtex-extra latexmk texlive-science -y
+
 cache: apt
 
+# sudo: false
 # addons:
 #   apt:
 #     # sources: texlive-backports/ppa 
 #     packages:
 #       - texlive-latex-extra
-#       - texlive-luatex
-#       - texlive-fonts-extra
-#       - texlive-bibtex-extra
+#       - texlive-xetex
 #       - latexmk
 #       - texlive-science
+#       - texlive-latex-recommended
 
 script: 
     - latexmk
