@@ -1,0 +1,72 @@
+\documentclass[a4paper,onecolumn,12pt]{article}
+
+%\usepackage{enumerate}
+%\usepackage[lined,boxed,commentsnumbered,ruled]{algorithm2e}
+%\usepackage[margin=2.5cm]{geometry}
+
+\usepackage{fontspec}
+\usepackage[slantfont, boldfont]{xeCJK} % 允许斜体和粗体
+% CJK字体
+\setCJKmonofont[Path=fonts/]{SimHei.ttf} % 等宽
+\setCJKsansfont[Path=fonts/,BoldFont={SimHei.ttf},ItalicFont={SimKai.ttf}]{SimSun.ttf} % 无衬线
+\setCJKmainfont[Path=fonts/,BoldFont={SimHei.ttf},ItalicFont={SimKai.ttf}]{SimSun.ttf} % 衬线
+% 英文字体
+\setmainfont[Mapping=tex-text,Path=fonts/]{LiberationSerif-Regular.ttf} % 衬线
+\setsansfont[Mapping=tex-text,Path=fonts/]{LiberationSans-Regular.ttf} % 无衬线
+\setmonofont[Mapping=tex-text,Path=fonts/]{LiberationMono-Regular.ttf} % 等宽
+\punctstyle{kaiming} % 开明式标点格式
+\usepackage{indentfirst} % 首段缩进
+\setlength{\parindent}{2em}
+
+\usepackage{xcolor}
+\usepackage{graphicx}
+
+%\usepackage{mathrsfs}
+\usepackage{bbding}
+\usepackage{listings}
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{bm}
+
+\usepackage[xetex]{hyperref}
+
+\hypersetup{colorlinks, linkcolor=black,
+  filecolor=black, urlcolor=red, citecolor=blue, pdftitle={恒星共识协议：互联网级共识的联邦模型}, pdfauthor={David Mazi{\`e}res}, pdfsubject={联邦拜占庭协议}, pdfkeywords={FBA, SCP}, pdfproducer={xelatex} }
+
+\newtheorem{theorem}{定理}
+%\newtheorem*{theorem*}{定理}
+\newtheorem{lemma}{引理}[section]
+%\newtheorem*{lemma*}{引理}[section]
+\newtheorem{definition}{定义}[section]
+%\newtheorem*{definition*}{定义}[section]
+
+\newcommand{\todo}[1]{{\footnotesize \textcolor{red}{$\ll$\textsf{TODO #1}$\gg$}}}%
+\newcommand{\mybm}[1]{{\bm #1}}%
+\newcommand{\quorum}{Quorum}
+
+\renewcommand{\figurename}{图}
+\renewcommand\refname{参考文献}
+\renewcommand{\abstractname}{摘\hspace{2em}要}
+
+\begin{document}
+
+\input{tex/0-abstract}
+\input{tex/1-intro}
+\input{tex/2-related}
+\input{tex/3-fba}
+\input{tex/4-resilience}
+\input{tex/5-voting}
+\input{tex/6-scp}
+\input{tex/7-limitations}
+\input{tex/8-summary}
+\input{tex/app1-ack}
+\input{tex/app2-disclaimer}
+\input{tex/appA-glossary}
+
+\bibliographystyle{abbrv}
+\bibliography{ref}
+
+
+\end{document}
