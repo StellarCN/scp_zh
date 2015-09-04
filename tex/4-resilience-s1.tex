@@ -10,12 +10,12 @@
 
 没有一种协议能够在没有{\quorum}交的情形下保证安全性，因为这样的配置可能会以两个对对方一无所知的FBAS系统运行着。然而，即使存在{\quorum}交，在存在恶性行为节点的情形下安全性也可能无法保证。比较有两个不相交集合的\todo{图6}和在恶性行为的节点$V_7$处有交的两个{\quorum}的\todo{图7}。如果$v_7$产生对左右两个{\quorum}产生两个不相容的陈述，其结果等价于不想交{\quorum}。
 
-事实上，由于恶性节点对安全性毫无用处，任何一个协议必须在它的良性行为节点在它们自己那里有{\quorum}交的情形下才能保证安全性。毕竟，在安全性的最坏的场景下，所有的恶性行为的节点都可能持续性地做出不一致的陈述来使得{\quorum}产生分歧。两个仅在恶性节点处想重叠的{\quorum}由于恶性节点的欺骗同样会像运行在两个不同的FBAS系统里一样。总之，FBAS$\langle \mybm{Q},\mybm{V}\rangle$可以在节点集合$B\subseteq \mybm{V}$的拜占庭故障中生存下来当且仅当$\langle\mybm{Q},\mybm{V}\rangle$在从$\mybm{V}$和$\mybm{Q}$中的所有切片中删除了$B$中的节点之后仍然有{\quorum}交。更形式化的描述是：
+事实上，由于恶性节点对安全性毫无用处，任何一个协议必须在它的良性行为节点在它们自己那里有{\quorum}交的情形下才能保证安全性。毕竟，在安全性的最坏的场景下，所有的恶性行为的节点都可能持续性地做出不一致的陈述来使得{\quorum}产生分歧。两个仅在恶性节点处想重叠的{\quorum}由于恶性节点的欺骗同样会像运行在两个不同的FBAS系统里一样。总之，FBAS$\langle \mybm{V},\mybm{Q}\rangle$可以在节点集合$B\subseteq \mybm{V}$的拜占庭故障中生存下来当且仅当$\langle\mybm{Q},\mybm{V}\rangle$在从$\mybm{V}$和$\mybm{Q}$中的所有切片中删除了$B$中的节点之后仍然有{\quorum}交。更形式化的描述是：
 
 \begin{definition}[删除]
-	如果$\langle\mybm{Q},\mybm{V}\rangle$是一个FBAS并且$B\subseteq \mybm{V}$是一个节点集合，那么从$\langle\mybm{Q},\mybm{V}\rangle$中\textit{删除}$B$（记作$\langle\mybm{Q},\mybm{V}\rangle^B$），意味着计算修改过后的FBAS$\langle\mybm{V}\B, \mybm{Q}^B\rangle$，这里$\mybm{Q}^B(v)=\left\{q\backslash B|q\in\mybm{Q(v)}\right\}$。
+	如果$\langle\mybm{Q},\mybm{V}\rangle$是一个FBAS并且$B\subseteq \mybm{V}$是一个节点集合，那么从$\langle\mybm{V},\mybm{Q}\rangle$中\textit{删除}$B$（记作$\langle\mybm{V},\mybm{Q}\rangle^B$），意味着计算修改过后的FBAS$\langle\mybm{V}\B, \mybm{Q}^B\rangle$，这里$\mybm{Q}^B(v)=\left\{q\backslash B|q\in\mybm{Q(v)}\right\}$。
 \end{definition}
 
 每个节点$v$有责任确保$\mybm{Q}(v)$不会违背{\quorum}交。一种做法是选择保守的切片，这会导致较大的{\quorum}。当然，一个恶意的$v$可能会故意地选择$\mybm{Q}(v)$来违反{\quorum}交。但是一个恶意的$v$还可能对$\mybm{Q}(v)$的值撒谎或者忽略$\mybm{Q}(v)$来做出随意的断言。总之，当$v$是恶性行为的时候$\mybm{Q}(v)$的值是没有意义的。这就是为什么安全性的必要属性---在删除恶性行为节点之后的良性行为节点仍然有{\quorum}交---是不受恶性行为节点的切片影响的。
 
-假定\todo{图6}是由一个三节点$v_1$,$v_2$,$v_3$组成的有{\quorum}交的FBAS系统进化成一个六节点无{\quorum}交的FBAS系统。当$v_4$,$v_5$,$v_6$加入时，他们恶意地选择切片来破坏{\quorum}交并且没有节点能够为$\mybm{V}$确保安全性。幸运的是，删除这些节点得到$\mybm{V},\mybm{V}^{v_4,v_5,v_6}$重新回复{\quorum}交属性，这意味着至少$\left\{v_1,v_2,v_3\right\}$能够保证安全性。注意这里的删除是概念性的，用于表述最优安全性。一个协议应当为$v_1$,$v_2$,$v_3$保证安全性而不需要他们知道$v_4$,$v_5$,$v_6$是恶性行为的。
+假定\todo{图6}是由一个三节点$v_1$,$v_2$,$v_3$组成的有{\quorum}交的FBAS系统进化成一个六节点无{\quorum}交的FBAS系统。当$v_4$, $v_5$, $v_6$加入时，他们恶意地选择切片来破坏{\quorum}交并且没有节点能够为$\mybm{V}$确保安全性。幸运的是，删除这些节点得到$\langle\mybm{Q},\mybm{V}\rangle^{\left\{v_4,v_5,v_6\right\}}$重新恢复{\quorum}交属性，这意味着至少$\left\{v_1,v_2,v_3\right\}$能够保证安全性。注意这里的删除是概念性的，用于表述最优安全性。一个协议应当为$v_1$, $v_2$, $v_3$保证安全性而不需要它们意识到$v_4$, $v_5$, $v_6$是恶性行为的。

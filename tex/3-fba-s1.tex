@@ -7,7 +7,7 @@
 \end{definition}
 
 \begin{definition}[\quorum]
-	FBAS$\langle\mybm{Q},\mybm{V}\rangle$中的节点集合$U\subseteq\mybm{V}$是一个\textit{\quorum}当且仅当$U$包含每个节点的一个切片---即，$\forall v\in U, \exists q \in \mybm{Q}(v), s.t. q\subseteq U$。
+	FBAS$\langle\mybm{V},\mybm{Q}\rangle$中的节点集合$U\subseteq\mybm{V}$是一个\textit{\quorum}当且仅当$U$包含每个节点的一个切片---即，$\forall v\in U, \exists q \in \mybm{Q}(v), s.t. q\subseteq U$。
 \end{definition}
 
 {\quorum}是足够达成一致的节点集合。切片是使得某一特定节点同意的quorum子集。考虑\todo{图2}中的四节点系统，每个节点包含单一切片而箭头指向切片中的其他成员。节点$v_1$的切片$\left\{v_1,v_2,v_3\right\}$足以说服$v_1$认可。但是$v_2$和$v_3$的切片包含$v_4$，这意味着$v_2$和$v_3$都不能在没有$v_4$同意的情况下断言某个陈述。因而，没有$v_4$的参与就不可能达成一致，而唯一的包含$v_1$的{\quorum}是所有节点的集合$\left\{v_1,v_2,v_3,v_4\right\}$。
