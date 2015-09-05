@@ -29,7 +29,7 @@
 
 即使一个节点$v$本身是良性行为的，当它被足够多的故障节点所包围而被阻塞进程或状态被破坏时，它也是被污染的。FBAS都不能保证被污染节点的正确性。\todo{图8}概述了节点的关键属性。下面的定理减轻了分析的困难，它们表明被污染的节点集合总是FBAS中的一个有{\quorum}交的$DSet$。
 
-\begin{theorem}
+\begin{theorem}\label{th1}
 	令$U$是FBAS$\langle\mybm{V},\mybm{Q}\rangle$中的一个{\quorum}，$B\subseteq \mybm{Q}$是节点集合，并令$U^\prime=U\backslash B$。若$U^\prime\neq \emptyset$，则$U^\prime$是$\langle\mybm{V},\mybm{Q}\rangle^B$中的一个{\quorum}。
 \end{theorem}
 
@@ -37,10 +37,20 @@
 	因为$U$是一个{\quorum}，每个节点$v\in U$都有一个$q$使得$q\in U$。由于$U^\prime\subseteq U$，则有对每个节点$v\in U^\prime$存在$q\in\mybm{Q}(v)$使得$q\backslash B\subseteq U^\prime$。重新使用删除记号书写即得$\forall v\in U^\prime,\exists q\in\mybm{Q}^B(v)$使得$q\subseteq U^\prime$；因为$U^\prime \subseteq \mybm{Q}\backslash B$，这表示$U^\prime$是$\langle\mybm{V},\mybm{Q}\rangle^B$的一个{\quorum}。
 \end{proof}
 
-\begin{theorem}
+\begin{theorem}\label{th2}
 	如果$B_1$和$B_2$是FBAS$\langle\mybm{V},\mybm{Q}\rangle$的一个有{\quorum}交的$DSet$，那么$B=B_1\cap B_2$也是一个$DSet$。
 \end{theorem}
 
 \begin{proof}
-	令$U_1=\mybm{Q}\backslash B_1$且$U_2=\mybm{Q}\backslash B_2$。如果$U_1=\emptyset$，那么$B_1=\mybm{V}$且$B=B_2$，是一个$DSet$。类似地，如果$U_2=\emptyset$，那么$B=B_1$，这种情形解决。
+	令$U_1=\mybm{Q}\backslash B_1$且$U_2=\mybm{Q}\backslash B_2$。如果$U_1=\emptyset$，那么$B_1=\mybm{V}$且$B=B_2$，是一个$DSet$。类似地，如果$U_2=\emptyset$，那么$B=B_1$，这种情况已解决。否则，注意到除$DSet$的$B_1$和$B_2$的{\quorum}可达性，$U_1$和$U_2$是$\langle\mybm{V},\mybm{Q}\rangle$。由定义可知，两个{\quorum}的并仍然是{\quorum}。因此${\mybm{Q}\backslash B}=U_1\cup U_2$是一个{\quorum}且它有除$B${\quorum}可达性。
+	
+	我们需要说明除$B${\quorum}可交性。令$U_a$和$U_b$是${\mybm{V},\mybm{V}^{B}}$的任意两个{\quorum}，$U=U_1\cap U_2 = U_2\backslash B_1$。根据$\langle\mybm{V},\mybm{Q}\rangle$的定义，$U=U_1\cap U_2  \neq \emptyset$。但由定理\ref{th1}，$U=U_2\backslash B_1$必为$\langle\mybm{V},\mybm{Q}\rangle^{B_1}$。考虑到$U_a\backslash B_1$和$U_a\backslash B_2$不可能同时为空集，否则$U_a\backslash B$为空与$U_a$是{\quorum}的定义矛盾。因此，由定理\ref{th1}，要么$U_a\backslash B_1$是$(\langle\mybm{V},\mybm{Q}\rangle^{B})^{B_1}=\langle\mybm{V},\mybm{Q}\rangle^{B_1}$，要么$U_a\backslash B_2$是$\langle\mybm{V},\mybm{Q}\rangle^{B_2}$，或者两者都是。在前一种情形下，注意到假如$U_a\backslash B_1$是$\langle\mybm{V},\mybm{Q}\rangle^{B_1}$的{\quorum}，那么由$\langle\mybm{V},\mybm{Q}\rangle^{B_1}${\quorum}可交性可得$(U_a\backslash B_1)\cap U\neq \emptyset$；由于$(U_a\backslash B_1)\cap U = (U_a\backslash B_1)\backslash B_2$，可知$U_a\backslash B_2\neq \emptyset$，从而$U_a\backslash B_2$是$\langle\mybm{V},\mybm{Q}\rangle^{B_2}$中的一个{\quorum}。类似地，$U_b\backslash B_2$也必是$\langle\mybm{V},\mybm{Q}\rangle^{B_2}$。但除$B${\quorum}可交性告诉我们$(U_a\backslash B_2)\cap (U_b\backslash B_2)\neq \emptyset$，这仅在$U_a\cap U_b\neq \emptyset$的时候可能。
+\end{proof}
+
+\begin{theorem}
+	在一个有{\quorum}交的FBAS中，被污染的集合是一个$DSet$。
+\end{theorem}
+
+\begin{proof}
+	令$B_{min}$是一个包含所有恶性行为节点的$DSet$的交。由\textbf{完整性}的定义可知一个节点$v$是完整的当且仅当$v\not\in B_{min}$。因此$B_{min}$就是被污染节点集合。由定理\ref{th2}可知，$DSet$在交的意义下是闭的,因此$B_{min}$也是一个$DSet$。
 \end{proof}

@@ -1,4 +1,9 @@
-1. 使用合适的中英文字体
-1. 中英文之间存在间距
-1. 小节之间页break
-1. .travis.yml 可以改成container-based形式
+1. .travis.yml 改成container-based形式
+1. 术语翻译问题：
+  - quorum
+  - liveness
+1. 中英文标点问题:
+  - 圆括号
+1. 数学环境
+  - 证明环境qed
+  - 编号问题
