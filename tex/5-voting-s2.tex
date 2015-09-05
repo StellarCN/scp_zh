@@ -1,1 +1,18 @@
 \subsection{阻塞集}
+在中心化共识中，存活性是系统的一个要么都有要么都没有的属性。要么一个全体一致的良性行为{\quorum}存在，要么恶性行为节点会阻塞系统的其他部分接受新的陈述。在FBA中则不然，存活性可能在不同的节点间并不相同。例如，在\todo{图3}的分层{\quorum}例子中，如果中间层的$v_6$, $v_7$, $v_8$崩溃了，叶子层将会被阻塞，而顶层节点及$v_5$将继续具有存活性。
+
+仅当$\mybm{Q}(v)至少包含一个仅由正确节点组成的{\quorum}切片$时，一个FBA协议可以保证对一个节点$v$的存活性。如果故障节点集合$B$至少包含每个$v$的切片的一个成员的话那么$B$会破坏这一属性。我们称集合$B$是一个{\vblock}，因为它会阻塞$v$的进展。
+
+\begin{definition}[{\vblock}]
+	设$v\in \mybm{V}$FBAS $\langle\mybm{V},\mybm{Q}\rangle$中的一个节点。集合$B\subseteq \mybm{Q}$是{\vblock}的当且仅当它和$v$的每个切片都有交集---即，$\forall q\in \mybm{Q}(v),q\cap B\neq \emptyset$。
+\end{definition}
+
+\begin{theorem}\label{th7}
+	设$B\subseteq \mybm{V}$是FBAS $\langle\mybm{V},\mybm{Q}\rangle$的一个节点集合。$\langle\mybm{V},\mybm{Q}\rangle$具有除$B${\quorum}可达性当且仅当对任何$\mybm{V}\backslash B$来说$B$不是{\vblock}。
+\end{theorem}
+
+\begin{theorem}
+	``$\forall v\in \mybm{V}\backslash B$, $B$不是{\vblock}''和``$\forall v\in\mybm{V}\backslash B, \exists q\in \mybm{Q}(v)$使得$q\subseteq \mybm{V}\backslash B$''等价。由{\quorum}的定义，后者成立当且仅当$\mybm{V}\backslash B$是一个群体或者$B=\mybm{V}$，亦即\textit{除$B${\quorum}可达性}的严格定义。
+\end{theorem}
+
+作为结论，对任何完整的节点$v$来说，被污染节点的$DSet$不是{\vblock}的。
