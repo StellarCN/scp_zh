@@ -47,7 +47,7 @@
 	我们需要说明除$B${\quorum}可交性。令$U_a$和$U_b$是${\mybm{V},\mybm{V}^{B}}$的任意两个{\quorum}，$U=U_1\cap U_2 = U_2\backslash B_1$。根据$\langle\mybm{V},\mybm{Q}\rangle$的定义，$U=U_1\cap U_2  \neq \emptyset$。但由定理\ref{th1}，$U=U_2\backslash B_1$必为$\langle\mybm{V},\mybm{Q}\rangle^{B_1}$。考虑到$U_a\backslash B_1$和$U_a\backslash B_2$不可能同时为空集，否则$U_a\backslash B$为空与$U_a$是{\quorum}的定义矛盾。因此，由定理\ref{th1}，要么$U_a\backslash B_1$是$(\langle\mybm{V},\mybm{Q}\rangle^{B})^{B_1}=\langle\mybm{V},\mybm{Q}\rangle^{B_1}$，要么$U_a\backslash B_2$是$\langle\mybm{V},\mybm{Q}\rangle^{B_2}$，或者两者都是。在前一种情形下，注意到假如$U_a\backslash B_1$是$\langle\mybm{V},\mybm{Q}\rangle^{B_1}$的{\quorum}，那么由$\langle\mybm{V},\mybm{Q}\rangle^{B_1}${\quorum}可交性可得$(U_a\backslash B_1)\cap U\neq \emptyset$；由于$(U_a\backslash B_1)\cap U = (U_a\backslash B_1)\backslash B_2$，可知$U_a\backslash B_2\neq \emptyset$，从而$U_a\backslash B_2$是$\langle\mybm{V},\mybm{Q}\rangle^{B_2}$中的一个{\quorum}。类似地，$U_b\backslash B_2$也必是$\langle\mybm{V},\mybm{Q}\rangle^{B_2}$。但除$B${\quorum}可交性告诉我们$(U_a\backslash B_2)\cap (U_b\backslash B_2)\neq \emptyset$，这仅在$U_a\cap U_b\neq \emptyset$的时候可能。
 \end{proof}
 
-\begin{theorem}
+\begin{theorem}\label{th3}
 	在一个有{\quorum}交的FBAS中，被污染的集合是一个$DSet$。
 \end{theorem}
 
