@@ -2,6 +2,7 @@
 1. 术语翻译问题：
   - quorum
   - liveness
+  - safety vs security
 1. 中英文标点问题:
   - 圆括号
 1. 数学环境

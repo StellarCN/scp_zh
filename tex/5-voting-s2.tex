@@ -11,8 +11,8 @@
 	设$B\subseteq \mybm{V}$是FBAS $\langle\mybm{V},\mybm{Q}\rangle$的一个节点集合。$\langle\mybm{V},\mybm{Q}\rangle$具有除$B${\quorum}可达性当且仅当对任何$\mybm{V}\backslash B$来说$B$不是{\vblock}。
 \end{theorem}
 
-\begin{theorem}
+\begin{proof}
 	``$\forall v\in \mybm{V}\backslash B$, $B$不是{\vblock}''和``$\forall v\in\mybm{V}\backslash B, \exists q\in \mybm{Q}(v)$使得$q\subseteq \mybm{V}\backslash B$''等价。由{\quorum}的定义，后者成立当且仅当$\mybm{V}\backslash B$是一个群体或者$B=\mybm{V}$，亦即\textit{除$B${\quorum}可达性}的严格定义。
-\end{theorem}
+\end{proof}
 
-作为结论，对任何完整的节点$v$来说，被污染节点的$DSet$不是{\vblock}的。
+作为结论，对任何完好的节点$v$来说，受损节点的$DSet$不是{\vblock}的。

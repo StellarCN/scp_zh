@@ -19,15 +19,15 @@
 
 一个FBAS系统中的$DSet$是由{\quorum}函数$\mybm{Q}$事先决定的。而哪个节点的行为是良性或是恶性的有运行时行为决定，例如机器被入侵了。我们关心的$DSet$是那些包含恶性行为的节点，因为它们能够帮助我们把可以确保正确的节点从不能保证正确的节点中辨别出来。有鉴于此，我们引入下面的术语：
 
-\begin{definition}[完整的]
-	FBAS中的节点$v$是\textbf{完整的}当且仅当存在一个包含所有恶性行为的$DSet$集合$B$且$v\not\in B$。
+\begin{definition}[完好的]
+	FBAS中的节点$v$是\textbf{完好的}当且仅当存在一个包含所有恶性行为的$DSet$集合$B$且$v\not\in B$。
 \end{definition}
 
-\begin{definition}[被污染的]
-	FBAS中的节点$v$是\textbf{被污染的}当且仅当它不是完整的。
+\begin{definition}[受损的]
+	FBAS中的节点$v$是\textbf{受损的}当且仅当它不是完好的。
 \end{definition}
 
-即使一个节点$v$本身是良性行为的，当它被足够多的故障节点所包围而被阻塞进程或状态被破坏时，它也是被污染的。FBAS都不能保证被污染节点的正确性。\todo{图8}概述了节点的关键属性。下面的定理减轻了分析的困难，它们表明被污染的节点集合总是FBAS中的一个有{\quorum}交的$DSet$。
+即使一个节点$v$本身是良性行为的，当它被足够多的故障节点所包围而被阻塞进程或状态被破坏时，它也是受损的。FBAS都不能保证受损节点的正确性。\todo{图8}概述了节点的关键属性。下面的定理减轻了分析的困难，它们表明受损节点集合总是FBAS中的一个有{\quorum}交的$DSet$。
 
 \begin{theorem}\label{th1}
 	令$U$是FBAS$\langle\mybm{V},\mybm{Q}\rangle$中的一个{\quorum}，$B\subseteq \mybm{Q}$是节点集合，并令$U^\prime=U\backslash B$。若$U^\prime\neq \emptyset$，则$U^\prime$是$\langle\mybm{V},\mybm{Q}\rangle^B$中的一个{\quorum}。
@@ -52,5 +52,5 @@
 \end{theorem}
 
 \begin{proof}
-	令$B_{min}$是一个包含所有恶性行为节点的$DSet$的交。由\textbf{完整性}的定义可知一个节点$v$是完整的当且仅当$v\not\in B_{min}$。因此$B_{min}$就是被污染节点集合。由定理\ref{th2}可知，$DSet$在交的意义下是闭的,因此$B_{min}$也是一个$DSet$。
+	令$B_{min}$是一个包含所有恶性行为节点的$DSet$的交。由\textbf{完整性}的定义可知一个节点$v$是完好的当且仅当$v\not\in B_{min}$。因此$B_{min}$就是被污染节点集合。由定理\ref{th2}可知，$DSet$在交的意义下是闭的,因此$B_{min}$也是一个$DSet$。
 \end{proof}

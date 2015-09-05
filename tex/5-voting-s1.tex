@@ -32,10 +32,10 @@
 	反证法。假设$v_1$批准了$a$且$v_2$批准了$\bar a$。由定义可得，存在一个包含$v_1$的{\quorum}$U_1$批准了$a$，存在一个包含$v_2$的{\quorum}$U_2$批准了$\bar a$。由定理\ref{th1}，由于$U_1\backslash B\neq \emptyset$且$\U_2\backslash B\neq \emptyset$。两者必是$\langle\mybm{V},\mybm{Q}\rangle^{B}$，这意味着他们各自在$\langle\mybm{V},\mybm{Q}\rangle^{B}$批准了$a$和$\bar a$。然而$\langle\mybm{V},\mybm{Q}\rangle^{B}$具有{\quorum}可交性且不含恶性行为节点，由定理\ref{th4}可知$a$和$\bar a$不可能同时被批准。
 \end{proof}
 
-\begin{theorem}[th6]
+\begin{theorem}\label{th6}
 	一个具有{\quorum}交的FBAS中的两个完整节点不可能批准相互冲突的陈述。
 \end{theorem}
 
 \begin{proof}
-	设$B$是被污染的节点。由定理\ref{th3}，$B$是一个$DSet$。由$DSet$的定义，$\langle\mybm{V},\mybm{Q},\rangle$有除$B${\quorum}可交性。由定理\ref{th5}可得不在$B$中的节点不可能批准冲突的陈述。
+	设$B$是受损的节点。由定理\ref{th3}，$B$是一个$DSet$。由$DSet$的定义，$\langle\mybm{V},\mybm{Q},\rangle$有除$B${\quorum}可交性。由定理\ref{th5}可得不在$B$中的节点不可能批准冲突的陈述。
 \end{proof}
