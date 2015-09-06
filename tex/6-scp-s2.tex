@@ -17,6 +17,5 @@
 
 为了提交一个表决并向外界展示它的值$b.x$，SCP节点首先接受并确认$b$已经就绪，然后接受并确认$commit\;b$。在第一个完好节点投票赞成$commit\;b$之前，经由联邦投票的准备步骤确保所有完好节点最终可以确认$b$是就绪的。当一个完好节点$v$接受$commit\;b$时，意味着$b.x$最终将会被选中。然而，正如第\ref{sec:voting_safety}中所讨论的那样，为了防止$v$被污染$v$必须在作用于它之前确认$commit$。
 
-\subsubsection{具体的表决协议}
-
-\subsubsection{表决选择}
+\input{tex/6-scp-s2-1}
+\input{tex/6-scp-s2-2}
