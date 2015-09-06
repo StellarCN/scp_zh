@@ -13,7 +13,7 @@
 
 为了支持像\todo{图10a}中协议层次的存活性概念，$v_1$需要一种方式来确保每个其他的完好的节点最终能够在作用于$a$之前接受$a$。一旦是这种情形，则说系统在$a$上达成了一致就讲得通了。
 
-\begin{definition}[认可]
+\begin{definition}[认可]\label{def:agree}
 	一个FBAS$\langle\mybm{V},\mybm{Q}\rangle$\textbf{认可}陈述$a$当且仅当无论接下来将会暴露什么，一旦足够的消息被传递且处理了，每个完好的节点将会接受$a$。
 \end{definition}
 
