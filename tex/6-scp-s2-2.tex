@@ -13,6 +13,8 @@
 一个节点应当在$\varphi=\textsl{PREPARE}$且下面条件之一满足的情况下放弃当前的表决$b_v$而转向一个更高的表决：
 
 \begin{enumerate}
-	\item $M_v$包含
-	\item 
+	\item\label{enum:giveup1} $M_v$包含一个来自发送者的{\vblock}集合的消息集合$S$，使得$\forall m\in S,b_v.n<b_m.n$且要么$b_m.n=\infty$要么$P_v\lesssim c_m$（意味着$v$的表决计数器已经落后了）。
+	\item\label{enum:giveup2} 自从$M_v$第一次包含一个自我验证的集合$S$（满足$\forall m\in S,b_v.n<b_m.n$）之后已经超时过期了（意味着$b_v$很可能不会再提交，且$v$希望它已经收到了足够多的消息来让它选择一个更好的新的表决）。
 \end{enumerate}
+
+为了让协议最终能够终止，条件\ref{enum:giveup2}必须最终足够长以使得所有良性行为节点能够交换几轮消息。为了在不需要预测网络延迟的情形下达到这个具体的实现，超时值应当设置为随着$b_v.n$的增长而增长。同样需要注意当节点$v$已经落后时，并不是遍历测试每个计数器，而是可以简单地增加$b_v.n$到最小值来使得条件\ref{enum:giveup1}为假。
