@@ -1,1 +1,13 @@
 \subsection{正确性}\label{sec:scp_correct}
+
+一个节点只有在已经许诺确认所有小编号的表决的\textit{终止}陈述之后才能担保确认$commit\;b$陈述。因为一个良性行为的节点不能够接受（因此也不担保确认）相冲突的陈述，这意味着对于给定的$\mybm{V},\mybm{Q}$，定理\ref{th5}确保一个良性行为节点集合$S$只要享有除$\mybm{V}\backslash S${\quorum}可交性则不会产生相互冲突的值。如果$\mybm{V}$和$\mybm{Q}$只在槽间改变的话那么安全性仍然成立，但如果它们在槽中（mid-slot）改变呢（例如用于应对节点崩溃）？为了分析在重新配置的情形下的安全性，我们保守地对旧的和新的{\quorum}切片集合进行交操作；这反映了这样一个事实：节点可能依据来自不同时期的消息的组合来作出决定。因此很保守地讲，一个节点只有在当前槽用到的每个配置下都是完好的我们才说它是完好节点。但是我们可以放松要求而说：如果一个节点在最近的配置中都是完好的并且在以往的配置中从未接受过来自全部由恶性行为节点的{\vblock}集合发来的消息，则我们称该节点是完好的。
+
+\begin{theorem}\label{th12}
+	令$\langle \mybm{V_1},\mybm{Q_1}\rangle,\ldots,\langle \mybm{V_k},\mybm{Q_k}\rangle$是一个FBAS在协商一个单独槽点的时候经历过的配置集合。令$\mybm{V}=\mybm{V_1}\cup \cdots\cup \mybm{V_k}$且$\mybm{Q}(v)=\left\{q|\exists j, v\in\mybm{V_j}\cap q\in\mybm{Q}_j(v)\right\}$。令$B\subseteq\mybm{V}$是一个集合，满足$B$包含所有已经发送了非法消息的恶性行为节点---尽管$\mybm{Q}\backslash B$可能仍然包含崩溃（不响应）的节点。假设$v_1\not\in B$具体化了$x_1$,而$v_2\not\in B$具体化了$x_2$。则如果$\langle\mybm{V},\mybm{Q}\rangle^{B}$有{\quorum}交，那么$x_1=x_2$。
+\end{theorem}
+
+\begin{proof}
+	为了让$v_1$产生具体的$x_1$，它必然已经和一个伪{\quorum}$U_1\subseteq\mybm{V}$合作批准了$accept(commit(\langle n_1,x_1\rangle))$。我们称伪{\quorum}是因为$U_1$对任意特殊的$j$来讲可能都不是$\langle\mybm{V}_j,\mybm{Q}_j\rangle$的{\quorum}，这是由于批准可能已经涉及包含多个配置的消息。然而，为了使得批准成功，$\forall v\in U_1,\exists j, \exists q\in\mybm{Q}_j(v)$使得$q\subseteq U_1$。从$\mybm{Q}$的构造方式可知$q\in\mybm{Q}$。因此$U_1$是$\langle\mybm{V},\mybm{Q}\rangle$。类似地，一个伪{\quorum}必然已经批准了$accept(commit\langle n_2,x_2\rangle)$，且$U_2$一定是$\langle\mybm{V},\mybm{Q}\rangle$的一个{\quorum}。根据$\langle\mybm{V},\mybm{Q}\rangle^{B}$的{\quorum}交，必然存在某个$v\in \mybm{V}\backslash B$使得$v\in U_1\cap U_2$。根据假设，这样的$v\not\in B$不能声明接受不相容的表决。由于$v$确认接受值为$x_1$和$x_2$的表决提交，那么必然有$x_1=x_2$。
+\end{proof}
+
+对于节点$v$的存活性，当一个FBAS对一个单独节点经历了一系列的重新配置$\langle \mybm{V_1},\mybm{Q_1}\rangle,\ldots,\langle \mybm{V_k},\mybm{Q_k}\rangle$时我们需要考虑一些东西。首先，定理\ref{th12}的安全性前提条件必须对$v$以及$v$关心的节点成立，因为违反安全性会破坏定理\ref{th10}中所要求的{\quorum}交属性。其次，最新状态下的恶性行为节点集合$\langle \mybm{V_k}, \mybm{Q_k}$必须不能是{\vblock}的，这是因为这会否定一个{\quorum}而阻止它批准陈述。最后，$v$的状态不能够被一个{\vblock}集合错误地声称接受$\langle \mybm{V_1},\mybm{Q_1}\rangle\cdots \langle \mybm{V_{k-1},\mybm{Q_{k-1}}\rangle}$的中一个陈述所污染。总之，我们认为节点$v$在下面的条件成立的情况下是完好的。首先，在恶性行为节点被删除时对当前槽的过去的配置的并必须有{\quorum}交。其次，$v$必须在最新的视图$\langle \mybm{V_k}, \mybm{Q_k}$依据以往的静态配置标准还是完好的。最后，$v$必须从未接受过以往的配置$\langle \mybm{V_1},\mybm{Q_1}\rangle\cdots \langle \mybm{V_{k-1},\mybm{Q_{k-1}}\rangle}$中的全有恶性节点组成的{\vblock}集合中接受过消息。
