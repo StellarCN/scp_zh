@@ -1,1 +1,18 @@
 \subsubsection{表决选择}
+
+如果所有的节点都设置$b$为同样的表决，那么在\todo{页xxx}的第1-6步\todo{xxx}就足够认可表决的值并且具体化它了。然而，在表决协议开始时提名协议并不一定已经在每处都产生了相同的值，在这种情形下节点可能会在它们尝试提交第一个表决的时候失败。如果一个表决失败了或花费了太多的时间那么它可能因为没有回复的节点而失败，那么该节点必须增加它的表决计数器而用一个更高的表决来重新尝试。
+
+当专用新的表决时，节点$v$设置$b_v\leftarrow \langle b_v.n+1,z\rangle$，这里$z$是由这个决定的：如果$P\neq \mybm{0}$，那么$z=P.x$；否则，$z$是合成值$combine(Z)$，这里$Z$是第\ref{sec:scp_nominate_concrete}节提到的候选值集。由于$c$总是由$P=b$初始化而来，提高$P.x$的优先级确保在每个节点处的不变量：如果$c\neq \mybm{0}$那么$c\lesssim P\lesssim b$。
+
+方便起见，我们用下标来区分属于特殊节点或消息的域。如果$v$是一个节点，那么用$b_v$，$p_v$，$p_v^{\prime}\ldots$表示\todo{图16}中描述的节点$v$的状态里的$b,p,p^{\prime}\ldots$。我们还设置$z_v$为上文提及的$v$的下一个表决---即，在$P\neq \mybm{0}$时$z_v=P_v.x$否则为$v$的合成值。类似地，令$b_m,p_m,p^{\prime}_m,P_m,c_m$表示在\todo{图17}中所描述的由一个网络消息$m$所包含的对应的域。
+
+\begin{definition}[自我验证]
+	在节点$v$处的消息集合$S\subseteq M_v$是\textit{自我验证}的，当$v$是$S$中的某个发送者而$S$的发送者集合是一个在消息的$D$域下声明的{\quorum}集合之下的一个{\quorum}。
+\end{definition}
+
+一个节点应当在$\varphi=\textsl{PREPARE}$且下面条件之一满足的情况下放弃当前的表决$b_v$而转向一个更高的表决：
+
+\begin{enumerate}
+	\item $M_v$包含
+	\item 
+\end{enumerate}
