@@ -2,4 +2,25 @@
 
 \todo{图16}切掉了每个节点维护的单槽状态。一个节点$v$存储了：它当前的表决$b$；两个最近的已经就绪的不相容表决对$(p,p^{\prime})$；它必须投票\textit{提交}的（或在后续阶段需要确认\textit{提交}的）最小表决$c$（如果存在的话），对此它还没有在后续接受到\textit{终止}；最高的已确认就绪表决$P$；从每个节点（$M$）处接受到的最新消息；以及状态$\varphi$。表决$b$，$p$，$p^{\prime}$和$P$在同一个阶段里是不减的。另外，如果$c\neq\mybm{0}$---意味着$v$可能参与了批准$commit\;c$---代码必须确保$c\lesssim P\lesssim b$。这一不变量保证了节点总是可以投票为当前的表决$b$做好准备。
 
-\todo{图17}展示了协议消息。注意$a\;\vee accept(a)$是每个节点
+\todo{图17}展示了协议消息。注意$a\;\vee accept(a)$是每个节点需要为一个{\quorum}以\textit{接受}定义中的第\ref{itm:cond_normal}种方式接受$a$。每个节点通过设置$b\leftarrow \langle 1,combine(Z)\rangle$，$p\leftarrow \mybm{0}$，$p^{\prime}\leftarrow \mybm{0}$，$P\leftarrow \mybm{0}$，$c\leftarrow \mybm{0}$，$M\leftarrow\emptyset$即$\varphi \leftarrow \textsl{PREPARE}$的方式初始化槽的状态。之后节点在同类间重复地交换消息，发送由 $\varphi$表明的任何消息。一旦给$M$添加了一个新近接受的消息，一个节点$v$按照下面的方式添加它的状态：
+
+\begin{enumerate}
+	\item 如果$\varphi = \textsl{PREPARE}$且接受的信息让$v$接受新的表决为就绪的，更新$p$和$p^{\prime}$。之后，如果$c\neq \mybm{0}$且$p\gnsim P$或$p^{\prime}\gnsim P$，设置$c\leftarrow \mybm{0}$。
+	\item 如果$\varphi = \textsl{PREPARE}$且$v$确认新的表决是就绪的，增加$P$。之后，如果$c=\mybm{0}$，$P\geq b$，且$p\gnsim P$或$p^{\prime}\gnsim P$都不成立，则设$c\leftarrow P$且$b\leftarrow P$（尽管通常$b=P$）已经成立。
+	\item 如果$\varphi = \textsl{PREPARE}$，且$v$接受一个或多个相容的表决的\textit{提交}。设$c$为最小的这样的表决，$P$设为最大的表决使得$v$能够接受所有的$\left\{commit\;b^{\prime}|c\lesssim b^{\prime}\lesssim P\right\}$，$b\leftarrow \langle \infty, c.x\rangle$，且$\varphi\leftarrow \textsl{CONFIRM}$。
+	\item 如果$\varphi = \textsl{CONFIRM}$，且接受的消息让$v$接受新的表决为就绪的，则提升$p$至最高已被接受的就绪的表决，使得$p\sim c$。
+	\item 如果$\varphi = \textsl{CONFIRM}$且$v$接受更多的相容的\textit{提交}消息，提升$p$至最高的表决使得$v$接受所有的$\left\{commit\;b^{\prime}|c\lesssim b^{\prime} \lesssim P\right\}$。
+	\item 如果$\varphi = \textsl{CONFIRM}$且$v$对任意$c^{\prime}$确认$commit\;c^{\prime}$，设置$c$和$P$为最低和最高的这样的表决，设$\varphi\leftarrow\textsl{EXTERNALIZE}$，具体化$c.x$并终止。
+\end{enumerate}
+
+当$c=\mybm{0}$时，上数协议执行联邦投票来确认$b$已经就绪了。一旦$c\neq \mybm{0}$，该协议对$commit\;c$（实际上是介于$c$和$P$之间的相容的表决）执行联邦投票。对确认阶段来说，一旦一个良性行为的节点$v$接受了$commit\;c$，该节点就不会接受或尝试确认任何满足$c^{\prime}\not\sim c$的$commit\;c^{\prime}$。因此直观上说，一旦一个\textit{提交}被确认了，只要节点具有{\quorum}交属性的话那么具体化它的值就是安全的。
+
+所有来自一个节点的消息在元组$\langle \varphi,b,p,p^{\prime},P\rangle$的定义之下是全序的，这里$\varphi$是最重要的域而$P$最不重要。所有的\textsl{PREPARE}都在\textsl{CONFIRM}消息之前，转而对于给定的槽点来说在一个单一的\textsl{EXTERNALIZE}消息之前。\textsl{PREPARE}信息显式地包含这四个域，而\textsl{CONFIRM}和\textsl{EXTERNALIZE}包含在\todo{图17}中描述的值。这一序关系使得$M$值包含来自每个节点的最新的表决而不依赖于时间来排序消息成为可能，这是因为网络可能会重新排序收到的消息。
+
+一些写协议的细节需要解释。形如``$abort\;b^{\prime}\cup accpet(abort\;b^{\prime})$''的由\textsl{PREPARE}所蕴含的陈述并没有指明$v$是否赞成或确认$abort\;b^{\prime}$。对于\textit{接受}的定义来说这一区分是不重要的。掩盖这一区分使得$v$忘记了旧的它投票提交（因此不能够投票终止）的表决，只要它为之接受一个\textit{终止}消息。
+
+为了确保节点在$P$处趋于一致，$p$和$p^{\prime}$都是必需的，这是因为定理\ref{th10}要求节点重新广播它们已经接受的消息。从\textit{就绪}的定义可知，一个节点已经接受并认为就绪的两个不相容的表决包含了所有该节点接受并认为是就绪的表决。
+
+在$v$发出\textsl{ENTERNALIZE}消息的时候它实际上已经一个区间内的提交消息$\left\{commit\;b^{\prime}\grtsim c\right\}$。然而，$v$设置$P$来断言它确认的表决被提交的这样的陈述是可接受的，而不是在隐式的\textsl{CONFIRM}消息中设置$P.n=\infty$从而对每个$b^{\prime}\grtsim c$断言$accept(commit\;b^{\prime})$。这些是足够的，因为一旦一个独立完好的节点确认了$commit\;c$，定理\ref{th10}告诉我们所有的完好节点也将确认它。把关注点集中在已被确认的表决上有额外的好处：\textsl{EXTERNALIZE}消息仅断言$v$已经批准的信息，从而使得$\mybm{Q}$不再相关。这意味着一个独立静态的\textsl{EXTERNALIZE}消息对未来任意远除的想赶上进度的节点来说都是有用的，即使{\quorum}切片与此同时已经改变了很多。
+
+交换表决消息只需要一个RPC。参数是发送者最新的消息而返回值是接受者最新的消息。对于\textsl{NOMINATE}，如果$D$或在表决中的值$x$是加密散列，那么为了取回没有被缓存的散列原像需要一个单独的RPC。
