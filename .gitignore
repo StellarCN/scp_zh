@@ -38,5 +38,5 @@
 *.tdo
 
 /*.pdf
-/auto/
+auto/
 /.texpadtmp/
