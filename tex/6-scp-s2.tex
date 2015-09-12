@@ -1,5 +1,5 @@
 \subsection{表决协议}
-一旦节点有了合成值它们将参与表决协议，尽管提名会继续更新合成值。一个表决$b$一个形如$b=\langle n,x\rangle$的二元组，这里$x\neq \perp$是一个值，而$b$是对讨论中的槽具体化的请示书（referendum）。$n\geq 1$是一个确保大些的表决数总是可访问的计数器。我们使用类C语言的标记$b.n$和$b.x$来表示表决$b$的计数和值的域，因而有$b=\langle b.n, b.x\rangle$。表决是全序的，而$b.n$比$b.x$更为重要{\footnote{译注：指二元组$b_1\prec b_2$当且仅当$b_1.n < b_2.n$或$b_1.n=b_2.n $且$b_1.x < b_2.x$；$b_1\equiv b_2$当且仅当$b_1.n=b_2.n\cap b_1.x=b_2.x$。}}为了方便起见，一个特殊无效的空表决$\mybm{0}=\langle 0,\perp\rangle$小于其它任何表决，而一个特别的计数器$\infty$大于其他所有的计数器。
+一旦节点有了合成值它们将参与表决协议，尽管提名会继续更新合成值。一个表决$b$一个形如$b=\langle n,x\rangle$的二元组，这里$x\neq \perp$是一个值，而$b$是对讨论中的槽具体化的请示书（referendum）。$n\geq 1$是一个确保大些的表决数总是可访问的计数器。我们使用类C语言的标记$b.n$和$b.x$来表示表决$b$的计数和值的域，因而有$b=\langle b.n, b.x\rangle$。表决是全序的，而$b.n$比$b.x$更为重要{\footnote{译注：指二元组$b_1\prec b_2$当且仅当$b_1.n < b_2.n$或$b_1.n=b_2.n $且$b_1.x < b_2.x$；$b_1\equiv b_2$当且仅当$b_1.n=b_2.n\cap b_1.x=b_2.x$。}}为了方便起见，一个特殊无效的空表决$\mybm{0}=\langle 0,\perp\rangle$小于其他任何表决，而一个特别的计数器$\infty$大于其他所有的计数器。
 
 我们分别用提交或终止一个表决$b$作为使用联邦投票来对语句$commib\;b$和$abort\;b$进行认可。对于给定的表决，$commit$和$abort$是相互冲突的，因此一个良性行为的节点最多为它们中的一个投赞成票。在\ref{sec:fba}的标注系统下，$commit\;b$的反是$\overline{commit\;b}$，但这里使用$abort\;b$更为直观。
 
