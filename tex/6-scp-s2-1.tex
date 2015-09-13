@@ -15,7 +15,7 @@
 
 当$c=\mybm{0}$时，上数协议执行联邦投票来确认$b$已经就绪了。一旦$c\neq \mybm{0}$，该协议对$commit\;c$（实际上是介于$c$和$P$之间的相容的表决）执行联邦投票。对确认阶段来说，一旦一个良性行为的节点$v$接受了$commit\;c$，该节点就不会接受或尝试确认任何满足$c^{\prime}\not\sim c$的$commit\;c^{\prime}$。因此直观上说，一旦一个\textit{提交}被确认了，只要节点具有{\quorum}交属性的话那么具体化它的值就是安全的。
 
-所有来自一个节点的消息在元组$\langle \varphi,b,p,p^{\prime},P\rangle$的定义之下是全序的，这里$\varphi$是最重要的域而$P$最不重要。所有的\textsl{PREPARE}都在\textsl{CONFIRM}消息之前，转而对于给定的槽点来说在一个单一的\textsl{EXTERNALIZE}消息之前。\textsl{PREPARE}信息显式地包含这四个域，而\textsl{CONFIRM}和\textsl{EXTERNALIZE}包含在\todo{图17}中描述的值。这一序关系使得$M$值包含来自每个节点的最新的表决而不依赖于时间来排序消息成为可能，这是因为网络可能会重新排序收到的消息。
+所有来自一个节点的消息在元组$\langle \varphi,b,p,p^{\prime},P\rangle$的定义之下是全序的，这里$\varphi$是最重要的域而$P$最不重要。所有的\textsl{PREPARE}都在\textsl{CONFIRM}消息之前，转而对于给定的槽来说在一个单一的\textsl{EXTERNALIZE}消息之前。\textsl{PREPARE}信息显式地包含这四个域，而\textsl{CONFIRM}和\textsl{EXTERNALIZE}包含在\todo{图17}中描述的值。这一序关系使得$M$值包含来自每个节点的最新的表决而不依赖于时间来排序消息成为可能，这是因为网络可能会重新排序收到的消息。
 
 一些写协议的细节需要解释。形如``$abort\;b^{\prime}\cup accpet(abort\;b^{\prime})$''的由\textsl{PREPARE}所蕴含的陈述并没有指明$v$是否赞成或确认$abort\;b^{\prime}$。对于\textit{接受}的定义来说这一区分是不重要的。掩盖这一区分使得$v$忘记了旧的它投票提交（因此不能够投票终止）的表决，只要它为之接受一个\textit{终止}消息。
 
