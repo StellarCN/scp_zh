@@ -10,7 +10,7 @@
 
 没有一种协议能够在没有{\quorum}交的情形下保证安全性，因为这样的配置可能会以两个对对方一无所知的FBAS系统运行着。然而，即使存在{\quorum}交，在存在恶性行为节点的情形下安全性也可能无法保证。比较有两个不相交集合的\todo{图6}和在恶性行为的节点$V_7$处有交的两个{\quorum}的\todo{图7}。如果$v_7$产生对左右两个{\quorum}产生两个不相容的陈述，其结果等价于不想交{\quorum}。
 
-事实上，由于恶性节点对安全性毫无用处，任何一个协议必须在它的良性行为节点在它们自己那里有{\quorum}交的情形下才能保证安全性。毕竟，在安全性的最坏的场景下，所有的恶性行为的节点都可能持续性地做出不一致的陈述来使得{\quorum}产生分歧。两个仅在恶性节点处想重叠的{\quorum}由于恶性节点的欺骗同样会像运行在两个不同的FBAS系统里一样。总之，FBAS$\langle \mybm{V},\mybm{Q}\rangle$可以在节点集合$B\subseteq \mybm{V}$的拜占庭故障中生存下来当且仅当$\langle\mybm{Q},\mybm{V}\rangle$在从$\mybm{V}$和$\mybm{Q}$中的所有切片中删除了$B$中的节点之后仍然有{\quorum}交。更形式化的描述是：
+事实上，由于恶性节点对安全性毫无用处，任何一个协议必须在它的良性行为节点在它们自己那里有{\quorum}交的情形下才能保证安全性。毕竟，在安全性的最坏的场景下，所有的恶性行为的节点都可能持续性地做出不一致的陈述来使得{\quorum}产生分歧。两个仅在恶性节点处想重叠的{\quorum}由于恶性节点的欺骗同样会像运行在两个不同的FBAS系统里一样。总之，FBAS$\langle \mybm{V},\mybm{Q}\rangle$可以在节点集合$B\subseteq \mybm{V}$的拜占庭错误中生存下来当且仅当$\langle\mybm{Q},\mybm{V}\rangle$在从$\mybm{V}$和$\mybm{Q}$中的所有切片中删除了$B$中的节点之后仍然有{\quorum}交。更形式化的描述是：
 
 \begin{definition}[删除]
 	如果$\langle\mybm{Q},\mybm{V}\rangle$是一个FBAS并且$B\subseteq \mybm{V}$是一个节点集合，那么从$\langle\mybm{V},\mybm{Q}\rangle$中\textit{删除}$B$（记作$\langle\mybm{V},\mybm{Q}\rangle^B$），意味着计算修改过后的FBAS$\langle\mybm{V}\B, \mybm{Q}^B\rangle$，这里$\mybm{Q}^B(v)=\left\{q\backslash B|q\in\mybm{Q(v)}\right\}$。
