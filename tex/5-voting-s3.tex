@@ -19,5 +19,5 @@
 \end{theorem}
 
 \begin{proof}
-        设$\langle\mybm{V},\mybm{Q}\rangle$是有{\quorum}交的FBAS，$B$是被污染节点的$DSet$（其存在性由定理\ref{th3}给出）。假定一个完好的节点接受陈述$a$。设$v$是第一个接受$a$的节点。在$v$接受$a$时，只有$B$中的被污染节点能够声称接受它。由定理\ref{th7}的结论，$B$不会是{\vblock}的，则必是通过条件\ref{itm:cond_normal}来接受$a$的。因此，$v$可以找到一个{\quorum}$U$使得其中的每个节点声称投票赞成或接受$a$，而由于$v$是第一个接受$a$的完好节点，这必意味着$\mybm{U}\backslash B$中的节点都投票赞成$a$。换句话说，$v$在$\langle\mybm{V},\mybm{Q}\rangle^{B}$中批准了$a$。一般化而言，任何一个被$\langle\mybm{V},\mybm{Q}\rangle$中完好节点所接受的陈述必定在$\langle\mybm{V},\mybm{Q}\rangle^{B}$中被批准。由于$B$是一个DSet，$\langle\mybm{V},\mybm{Q}\rangle^{B}$具有{\quorum}交。另外由于$B$包含所有的恶性行为节点，定理\ref{th4}过滤掉了那些对相互冲突的节点的批准。
+        设$\langle\mybm{V},\mybm{Q}\rangle$是有{\quorum}交的FBAS，$B$是被污染节点的$DSet$（其存在性由定理\ref{thm:befouleds_are_dset}给出）。假定一个完好的节点接受陈述$a$。设$v$是第一个接受$a$的节点。在$v$接受$a$时，只有$B$中的被污染节点能够声称接受它。由定理\ref{th7}的结论，$B$不会是{\vblock}的，则必是通过条件\ref{itm:cond_normal}来接受$a$的。因此，$v$可以找到一个{\quorum}$U$使得其中的每个节点声称投票赞成或接受$a$，而由于$v$是第一个接受$a$的完好节点，这必意味着$\mybm{U}\backslash B$中的节点都投票赞成$a$。换句话说，$v$在$\langle\mybm{V},\mybm{Q}\rangle^{B}$中批准了$a$。一般化而言，任何一个被$\langle\mybm{V},\mybm{Q}\rangle$中完好节点所接受的陈述必定在$\langle\mybm{V},\mybm{Q}\rangle^{B}$中被批准。由于$B$是一个DSet，$\langle\mybm{V},\mybm{Q}\rangle^{B}$具有{\quorum}交。另外由于$B$包含所有的恶性行为节点，定理\ref{th4}过滤掉了那些对相互冲突的节点的批准。
 \end{proof}
