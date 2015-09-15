@@ -10,6 +10,8 @@
 - voting: 选举；投票
 - permanent
 - quorum intersection 群体可交性；群体交
+- 他们/它们
+- others一律翻译为"其它"
 
 翻译风格
 ------

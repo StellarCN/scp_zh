@@ -1,41 +1,41 @@
 \subsection{开放式成员关系下的投票系统}
 
-在拜占庭协商系统中，一个正确的节点仅会在它知道其他的正确节点永远不会接受一个和$a$相冲突的陈述的情形下接受$a$。大多数协议为了这一目标采用了选举。良性行为节点仅当在$a$是有效的时候才会给$a$投赞成票。良性行为节点也不会改变它们的投票结果。因此，在一个中心化拜占庭协商中，如果绝大多数的良性节点（即{\quorum}）投票赞成$a$的话，那接受$a$是安全的。当一个陈述接受到了必要的投票之后，我们称这样的陈述是\textit{被批准的}。
+在拜占庭协商系统中，一个正确的节点仅会在它知道其他的正确节点永远不会接受一个和$a$相冲突的陈述的情形下接受$a$。大多数协议为实现这一目标采用了投票方式。良性行为节点仅当在$a$有效时才会给$a$投赞成票。良性行为节点也从不改变它们的投票结果。因此，在一个中心化拜占庭协商中，如果绝大多数的良性节点（即{\quorum}）投票赞成$a$的话，那么接受$a$是安全的。当一个陈述收到必要的赞成票之后，我们称这样的陈述是\textit{被批准的}。
 
-在一个联邦的环境中，我们必须调整选举机制以让他适应开放式成员关系。一个不同之处是{\quorum}不再对应于大多数良性行为节点。然而，多数性要求首先用于确保良性节点的{\quorum}交，在第\ref{sec:quorum_intersect}节我们已经把它调整成了FBA。开放成员关系还暗示了另一个问题需要解决：节点必须在一次选举过程中发现哪些节点组成了一个{\quorum}。为了实现{\quorum}发现，一个协议可以包含来自$v$的所有消息$\mybm{Q}(v)$，或提供其他一些办法来向$v$查询$\mybm{Q}(v)$。
+在一个联邦的环境中，我们必须调整选举机制以让他适应开放式成员关系。一个不同之处是{\quorum}不再对应于大多数良性行为节点。然而，多数性要求首先用于确保良性节点的{\quorum}交，在第\ref{sec:quorum_intersect}节我们已经调整他使之适用于FBA。开放成员关系还暗示了另一个问题需要解决：节点必须在选举过程中发现哪些节点组成了一个{\quorum}。为了发现{\quorum}，一个协议在所有来自$v$的消息中包含$\mybm{Q}(v)$，或提供其他一些办法来向$v$查询$\mybm{Q}(v)$。
 
 \begin{definition}[投票]
         一个节点$v$\textbf{投票}赞成一个（抽象）陈述$a$当且仅当
         \begin{enumerate}
-                \item $v$断言$a$是有效的，并且和其他$v$所接受的陈述相一致；且
-                \item $v$断言$v$从未\textit{投票反对}$a$——即，投票赞成一个和$a$相冲突的陈述——且$v$承诺在未来绝不会给$a$投反对票。
+                \item $v$断言$a$是有效的，并且和其他已被$v$接受的陈述相一致；且
+                \item $v$断言$v$从未\textit{投票反对}$a$——即，投票赞成一个和$a$相冲突的陈述——且$v$承诺在未来决不会给$a$投反对票。
         \end{enumerate}
 \end{definition}
 
 \begin{definition}[批准]
-        一个{\quorum}$U_a$\textbf{批准}一个陈述$a$当且仅当每个$U_a$中的成员都投票赞成$a$。一个节点\textbf{批准}$a$当且仅当$v$是一个批准$a$的{\quorum}$U_a$的元素。
+        一个{\quorum}$U_a$\textbf{批准}一个陈述$a$当且仅当每个$U_a$中的成员都投票赞成$a$。一个节点\textbf{批准}$a$当且仅当$v$是一个批准$a$的{\quorum}$U_a$中的成员。
 \end{definition}
 
-\begin{theorem}\label{th4}
+\begin{theorem}\label{thm:cannot_ratify_contradictory}
         两个冲突的陈述$a$和$\bar a$不会在一个在{\quorum}交且不含恶性行为节点的FBAS中同时被批准。
 \end{theorem}
 
 \begin{proof}
-        反证法。假定{\quorum}$U_1$批准了$a$而{\quorum}$U_2$批准了$\bar a$。根据{\quorum}可交性，$\exists v\in U_1\cap U_2$。这样的节点$v$必然已经非法地投票赞成了$a$和$\bar a$，和没有恶性行为节点的假设想冲突。
+        反证法。假定{\quorum}$U_1$批准了$a$而{\quorum}$U_2$批准了$\bar a$。根据{\quorum}可交性，$\exists v\in U_1\cap U_2$。这样的节点$v$必然已经非法地投票赞成了$a$和$\bar a$，和没有恶性行为节点的假设相冲突。
 \end{proof}
 
-\begin{theorem}\label{th5}
+\begin{theorem}\label{thm:nodes_cannot_ratify_contracdictory}
         令$\langle\mybm{V},\mybm{Q}\rangle$是一个有除$B${\quorum}可交性的FBAS系统并假定$B$包含恶性行为的节点。设$v_1$和$v_2$是两个不在$B$中的节点，$a$和$\bar a$是相互冲突的陈述。则有，如果$v_1$批准了$a$那么$v_2$不会批准$\bar a$。
 \end{theorem}
 
 \begin{proof}
-        反证法。假设$v_1$批准了$a$且$v_2$批准了$\bar a$。由定义可得，存在一个包含$v_1$的{\quorum}$U_1$批准了$a$，存在一个包含$v_2$的{\quorum}$U_2$批准了$\bar a$。由定理\ref{thm:quorum_subset_is_quorum}，由于$U_1\backslash B\neq \emptyset$且$U_2\backslash B\neq \emptyset$。两者必是$\langle\mybm{V},\mybm{Q}\rangle^{B}$，这意味着他们各自在$\langle\mybm{V},\mybm{Q}\rangle^{B}$批准了$a$和$\bar a$。然而$\langle\mybm{V},\mybm{Q}\rangle^{B}$具有{\quorum}可交性且不含恶性行为节点，由定理\ref{th4}可知$a$和$\bar a$不可能同时被批准。
+        反证法。假设$v_1$批准了$a$且$v_2$批准了$\bar a$。由定义可得，存在一个包含$v_1$的{\quorum}$U_1$批准了$a$，存在一个包含$v_2$的{\quorum}$U_2$批准了$\bar a$。由定理\ref{thm:quorum_subset_is_quorum}，由于$U_1\backslash B\neq \emptyset$且$U_2\backslash B\neq \emptyset$。两者必是$\langle\mybm{V},\mybm{Q}\rangle^{B}$，这意味着他们各自在$\langle\mybm{V},\mybm{Q}\rangle^{B}$批准了$a$和$\bar a$。然而$\langle\mybm{V},\mybm{Q}\rangle^{B}$具有{\quorum}可交性且不含恶性行为节点，由定理\ref{thm:cannot_ratify_contradictory}可知$a$和$\bar a$不可能同时被批准。
 \end{proof}
 
-\begin{theorem}\label{th6}
+\begin{theorem}\label{thm:intact_cannot_ratify_contracdictory}
         一个具有{\quorum}交的FBAS中的两个完整节点不可能批准相互冲突的陈述。
 \end{theorem}
 
 \begin{proof}
-        设$B$是被污染的节点。由定理\ref{thm:befouleds_are_dset}，$B$是一个$DSet$。由$DSet$的定义，$\langle\mybm{V},\mybm{Q},\rangle$有除$B${\quorum}可交性。由定理\ref{th5}可得不在$B$中的节点不可能批准冲突的陈述。
+        设$B$是被污染的节点集。由定理\ref{thm:befouleds_are_dset}，$B$是一个$DSet$。由$DSet$的定义，$\langle\mybm{V},\mybm{Q},\rangle$有除$B${\quorum}可交性。由定理\ref{thm:nodes_cannot_ratify_contracdictory}可得不在$B$中的节点不可能批准冲突的陈述。
 \end{proof}
