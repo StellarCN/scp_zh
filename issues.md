@@ -12,6 +12,7 @@
 - quorum intersection 群体可交性；群体交
 - 他们/它们
 - others一律翻译为"其它"
+- progress
 
 翻译风格
 ------
