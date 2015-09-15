@@ -4,9 +4,12 @@
 
 术语翻译
 ------
-- liveness
-- agreement
+- liveness 存活性
+- agreement: 协商；一致性
 - safety vs security需注解
+- voting: 选举；投票
+- permanent
+- quorum intersection 群体可交性；群体交
 
 翻译风格
 ------
