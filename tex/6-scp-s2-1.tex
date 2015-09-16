@@ -19,8 +19,8 @@
 
 一些写协议的细节需要解释。形如``$abort\;b^{\prime}\cup accpet(abort\;b^{\prime})$''的由\textsl{PREPARE}所蕴含的陈述并没有指明$v$是否赞成或确认$abort\;b^{\prime}$。对于\textit{接受}的定义来说这一区分是不重要的。掩盖这一区分使得$v$忘记了旧的它投票提交（因此不能够投票终止）的表决，只要它为之接受一个\textit{终止}消息。
 
-为了确保节点在$P$处趋于一致，$p$和$p^{\prime}$都是必需的，这是因为定理\ref{th10}要求节点重新广播它们已经接受的消息。从\textit{就绪}的定义可知，一个节点已经接受并认为就绪的两个不相容的表决包含了所有该节点接受并认为是就绪的表决。
+为了确保节点在$P$处趋于一致，$p$和$p^{\prime}$都是必需的，这是因为定理\ref{thm:confirmed_stats_keep_liveness}要求节点重新广播它们已经接受的消息。从\textit{就绪}的定义可知，一个节点已经接受并认为就绪的两个不相容的表决包含了所有该节点接受并认为是就绪的表决。
 
-在$v$发出\textsl{ENTERNALIZE}消息的时候它实际上已经一个区间内的提交消息$\left\{commit \; b^{\prime}\gtrsim c\right\}$。然而，$v$设置$P$来断言它确认的表决被提交的这样的陈述是可接受的，而不是在隐式的\textsl{CONFIRM}消息中设置$P.n=\infty$从而对每个$b^{\prime}\gtrsim c$断言$accept(commit\;b^{\prime})$。这些是足够的，因为一旦一个独立完好的节点确认了$commit\;c$，定理\ref{th10}告诉我们所有的完好节点也将确认它。把关注点集中在已被确认的表决上有额外的好处：\textsl{EXTERNALIZE}消息仅断言$v$已经批准的信息，从而使得$\mybm{Q}$不再相关。这意味着一个独立静态的\textsl{EXTERNALIZE}消息对未来任意远除的想赶上进度的节点来说都是有用的，即使{\quorum}切片与此同时已经改变了很多。
+在$v$发出\textsl{ENTERNALIZE}消息的时候它实际上已经一个区间内的提交消息$\left\{commit \; b^{\prime}\gtrsim c\right\}$。然而，$v$设置$P$来断言它确认的表决被提交的这样的陈述是可接受的，而不是在隐式的\textsl{CONFIRM}消息中设置$P.n=\infty$从而对每个$b^{\prime}\gtrsim c$断言$accept(commit\;b^{\prime})$。这些是足够的，因为一旦一个独立完好的节点确认了$commit\;c$，定理\ref{thm:confirmed_stats_keep_liveness}告诉我们所有的完好节点也将确认它。把关注点集中在已被确认的表决上有额外的好处：\textsl{EXTERNALIZE}消息仅断言$v$已经批准的信息，从而使得$\mybm{Q}$不再相关。这意味着一个独立静态的\textsl{EXTERNALIZE}消息对未来任意远除的想赶上进度的节点来说都是有用的，即使{\quorum}切片与此同时已经改变了很多。
 
 交换表决消息只需要一个RPC。参数是发送者最新的消息而返回值是接受者最新的消息。对于\textsl{NOMINATE}，如果$D$或在表决中的值$x$是加密哈希，那么为了取回没有被缓存的哈希原像需要一个单独的RPC。

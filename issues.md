@@ -14,6 +14,7 @@
 - others一律翻译为"其它"
 - progress
 - statement
+- accepted statement/ confirmed statement
 
 翻译风格
 ------

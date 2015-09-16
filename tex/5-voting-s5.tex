@@ -1,39 +1,39 @@
 \subsection{陈述确认}
 
-两类被接受陈述的局限性都来源于这一事实：一个完好的节点$v$可能会给一个已经被批准的陈述$a$投反对票。在反对$a$之后，它不会再投赞成票，这使得$v$将不可能批准$a$。为了给$v$提供一种在给$a$投反对票之后仍然能够批准$a$的方法，\textit{接受}的定义有一个基于{\vblock}的第二种准则。但是第二种准则弱于批准，对有{\quorum}交的被污染节点没有任何保障。
+两类被接受陈述的局限性都来源于这一事实：一个完好的节点$v$可能会给一个已经被批准的陈述$a$投反对票。在反对$a$之后，它不会再投赞成票，这使得$v$将不可能批准$a$。为了给$v$提供一种在给$a$投反对票之后仍然能够批准$a$的方法，\textit{接受}的定义给出了一个基于{\vblock}的第二准则。但是这个第二准则弱于批准，对有{\quorum}交的被污染节点没有任何保障。
 
-现在如果一个陈述$a$有从来没有任何完好的节点反对它这样一个属性，那么我们没有必要去接受它。完好的节点可以简单地批准$a$，而我们可以在作用于$a$之前要求它们这样做。我们成这样的陈述是不可驳斥的。
+现在如果一个陈述$a$有``从来没有任何完好的节点反对它''这样一个属性，那么我们没有必要去接受它。完好的节点可以简单地批准$a$，而我们可以在作用于$a$之前要求它们这样做。我们成这样的陈述是不可驳斥的。
 
 \begin{definition}[不可驳斥]
-	当没有完好的节点可以反对一个陈述$a$时，称该条陈述在FBAS中是\textbf{不可驳斥的}。
+	当没有完好的节点可以反对一个陈述$a$时，称这条陈述在FBAS中是\textbf{不可驳斥的}。
 \end{definition}
 
-定理\ref{thm:intact_cannot_accept_contradictory}告诉我们两个完好的节点不可能接受相互冲突的陈述。因此，尽管一些节点可能会反对某个被完好节点接受的陈述$a$，对\textit{一个完整的节点接受了$a$}这一陈述是不可反驳的。这暗示着举行第二次投票来批准一个完好的节点接受了$a$这一事实。
+定理\ref{thm:intact_cannot_accept_contradictory}告诉我们两个完好的节点不可能接受相互冲突的陈述。因此，尽管一些节点可能会反对某个被完好节点接受的陈述$a$，对``一个完好的节点接受了$a$''这一陈述是不可反驳的。这建议我们举行第二次投票来批准``一个完好的节点接受了$a$''这一事实。
 
 \begin{definition}[确认]
-	在FBAS中一个{\quorum}$U_a$\textbf{确认}一个陈述$a$当且仅当$\forall \in U_a$, $v$声明承认$a$。一个节点\textbf{确认}$a$当且仅当它在这样一个{\quorum}中。
+	在FBAS中一个{\quorum}$U_a$\textbf{确认}一个陈述$a$当且仅当$\forall v\in U_a$, $v$声称承认$a$。一个节点\textbf{确认}$a$当且仅当它在这样一个{\quorum}中。
 \end{definition}
 
-节点通过声称``$accept(a)$''的接受陈述$a$，这是``一个完好的节点接受$a$''的缩略形式的陈述。一个良性行为的节点$v$仅当在接受了$a$之后才能投票赞成$accept(a)$，这是因为$v$不能假定其它的任何节点都是完好的。如果$v$本身是被污染的，$accept(a)$可能会失败，在这种情形写可能会牺牲$v$的存活性，然而不管怎样一个被污染的节点对存活性是没有任何保证的。
+节点通过声称``$accept(a)$''的接受陈述$a$，这是``一个完好的节点接受$a$''的缩略形式的陈述。一个良性行为的节点$v$仅当在接受了$a$之后才能投票赞成$accept(a)$，这是因为$v$不能假定其它的任何节点都是完好的。如果$v$本身是被污染的，$accept(a)$可能会失败，在这种情形投票赞成它可能会牺牲$v$的存活性，然而无论如何一个被污染的节点对存活性是没有任何保证的。
 
-下一个定理表明节点能够依赖确认的陈述而不损失长最佳安全性。定理\ref{th10}则说明被确认的陈述符合第\ref{def:agree}中\textit{认可}的定义，这意味着节点可以依赖于确认的陈述而不会破坏完好节点的存活性。
+下一个定理表明节点能够依赖被确认陈述而不损失最佳安全性。定理\ref{thm:confirmed_stats_keep_liveness}则说明被确认陈述符合第\ref{sec:accept_not_enough_liveness}节中\textit{认可}的定义，这意味着节点可以依赖被确认陈述而不会破坏完好节点的存活性。
 
-\begin{theorem}\label{th9}
-	设$\langle\mybm{V},\mybm{Q}\rangle$是一个满足除$B${\quorum}可交性的FBAS，且假定$B$包含了所有的恶性行为节点。令$v_1$和$v_2$是不在$B$中的两个节点。设$a$和$\bar a$是相互冲突的陈述。那么有若$v_1$确认了$a$，则$v_2$不会确认$\bar a$。
+\begin{theorem}\label{thm:confirmed_stats_keep_safety}
+	设$\langle\mybm{V},\mybm{Q}\rangle$是一个满足除$B${\quorum}可交性的FBAS，且假定$B$包含了所有的恶性行为节点。令$v_1$和$v_2$是不在$B$中的两个节点。设$a$和$\bar a$是相互冲突的陈述。则有，若$v_1$确认了$a$，则$v_2$不会确认$\bar a$。
 \end{theorem}
 
 \begin{proof}
-	首先注意到$accept(a)$和$accept(\bar a)$相互冲突——没有一个良性行为的节点会同时投票赞成两者。更进一步，注意到$v_1$必须批准$accept(a)$来确认$a$。由定理\ref{thm:nodes_cannot_ratify_contracdictory}，$v_2$不会批准$accept(\bar a)$因此不会确认$\bar a$。
+	首先注意到$accept(a)$和$accept(\bar a)$相互冲突——没有一个良性行为的节点会同时投票赞成两者。更进一步，注意到$v_1$必须批准$accept(a)$以确认$a$。由定理\ref{thm:nodes_cannot_ratify_contracdictory}，$v_2$不会批准$accept(\bar a)$因此不会确认$\bar a$。
 \end{proof}
 
-\begin{theorem}\label{th10}
+\begin{theorem}\label{thm:confirmed_stats_keep_liveness}
 	如果一个含{\quorum}交的FBAS $\langle\mybm{V},\mybm{Q}\rangle$确认了一个陈述$a$，那么不论接下来会发生什么，一旦足够的消息被发送并处理了，每个完好的节点将会接受并确认$a$。
 \end{theorem}
 
 \begin{proof}
-	令$B$是被污染节点的$DSet$，并令$U_a\not \subseteq B$是一个{\quorum}，一个完好的节点通过它的确认$a$。令在$U_a\backslash B$中的节点广播$accept(a)$。根据定义，任何节点$v$，不论他是如何被投票的，在从一个{\vblock}集合中接受了$accept(a)$之后接受了$a$。因此，这些消息会说服额外的节点去接受$a$。让这些额外节点反过来广播$accept(a)$直到到达这样一个时刻：不论有多少更进一步的通信，没有更多的完好节点会接受$a$。一旦这个过程完成，设$V^+$是已经接受$a$的所有完好节点集合，设$V^-=(\mybm{V}\backslash B)\backslash V^+$是那些不能接受$a$的完好节点集。为证明所有的完好节点都接受了$a$，我们必须证明$V^-=\emptyset$。
+	令$B$是被污染节点的$DSet$，并令$U_a\not \subseteq B$是一个{\quorum}，一个完好的节点通过它确认$a$。让在$U_a\backslash B$中的节点广播$accept(a)$。根据定义，任何节点$v$，不论它是如何被投票的，在从一个{\vblock}集合中接受了$accept(a)$之后接受了$a$。因此，这些消息会说服额外的节点去接受$a$。让这些额外节点反过来广播$accept(a)$直到到达这样一个时刻：不论有多少更进一步的通信，没有更多的完好节点会接受$a$。一旦这个过程完成，设$V^+$是已经接受$a$的所有完好节点集合，设$V^-=(\mybm{V}\backslash B)\backslash V^+$是那些不能接受$a$的完好节点集。为证明所有的完好节点都接受了$a$，我们必须证明$V^-=\emptyset$。
 
 	由定理\ref{thm:quorum_subset_is_quorum}，$U_a\backslash B$是$\langle\mybm{V},\mybm{Q}\rangle^{B}$中的一个{\quorum}。由于对于任何$v\in V^-$来说$V^+$都不是{\vblock}的，那么由定理\ref{thm:quorum_availability_vs_vblocking}要么$V^-=\emptyset$要么$V^-$是$\langle\mybm{V},\mybm{Q}\rangle^{B}$中的一个{\quorum}。后一种情形导致这样一个矛盾：由于$V^-$只包含完好的（因此也是良性行为的）节点，它们当中的没有能够在首先真正接受$a$的情况下声明$accept(a)$，这意味着$U_a\backslash B\cap V^-=\emptyset$。然而这是不可能的，因为除$B$（一个$DSet$）{\quorum}可交性告诉我们它的反面，即$U_a\backslash B\cap V^-\neq\emptyset$。	一旦每个节点都接受了$a$，所有的都会投票赞成确认$a$。因为完好的节点构成了一个{\quorum}，这些投票将会成功。
 \end{proof}
 
-\todo{图11}总结了一个完好的节点为了确认$a$可以使用的路径。在不知情的状态下，$v$可能会赞成$a$或者与之冲突的$\bar a$。如果$v$投票赞成$\bar a$，它之后不会再赞成$a$，但是如果一个{\vblock}集合接受了$a$它却可以接受$a$。接下来确认消息的{\quorum}允许$v$去确认$a$，由定理\ref{th10}这意味着系统认可$a$。
+\todo{图11}总结了一个完好的节点为了确认$a$可以使用的路径。在不知情的状态下，$v$可能会赞成$a$或者与之冲突的$\bar a$。如果$v$投票赞成$\bar a$，它之后不会再赞成$a$，但是如果一个{\vblock}集合接受了$a$它却可以接受$a$。接下来确认消息的{\quorum}允许$v$去确认$a$，由定理\ref{thm:confirmed_stats_keep_liveness}这意味着系统认可$a$。
