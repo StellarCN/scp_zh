@@ -15,6 +15,7 @@
 - progress
 - statement
 - accepted statement/ confirmed statement
+- state/claim
 
 翻译风格
 ------

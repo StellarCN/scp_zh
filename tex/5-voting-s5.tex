@@ -31,9 +31,9 @@
 \end{theorem}
 
 \begin{proof}
-	令$B$是被污染节点的$DSet$，并令$U_a\not \subseteq B$是一个{\quorum}，一个完好的节点通过它确认$a$。让在$U_a\backslash B$中的节点广播$accept(a)$。根据定义，任何节点$v$，不论它是如何被投票的，在从一个{\vblock}集合中接受了$accept(a)$之后接受了$a$。因此，这些消息会说服额外的节点去接受$a$。让这些额外节点反过来广播$accept(a)$直到到达这样一个时刻：不论有多少更进一步的通信，没有更多的完好节点会接受$a$。一旦这个过程完成，设$V^+$是已经接受$a$的所有完好节点集合，设$V^-=(\mybm{V}\backslash B)\backslash V^+$是那些不能接受$a$的完好节点集。为证明所有的完好节点都接受了$a$，我们必须证明$V^-=\emptyset$。
+	令$B$是被污染节点的$DSet$，并令$U_a\not \subseteq B$是一个{\quorum}，一个完好的节点通过它确认$a$。让在$U_a\backslash B$中的节点广播$accept(a)$。根据定义，任何节点$v$，不论它是如何投票的，在从一个{\vblock}集合中接受了$accept(a)$陈述之后将接受$a$。因此，这些消息会说服额外的节点去接受$a$。让这些额外节点反过来广播$accept(a)$直到到达这样一个时刻：不论进一步的通信如何，没有更多的完好节点会接受$a$。一旦这个过程完成，设$V^+$是已经接受$a$的所有完好节点集合，设$V^-=(\mybm{V}\backslash B)\backslash V^+$是那些不能接受$a$的完好节点集。为证明所有的完好节点都接受了$a$，我们必须证明$V^-=\emptyset$。
 
-	由定理\ref{thm:quorum_subset_is_quorum}，$U_a\backslash B$是$\langle\mybm{V},\mybm{Q}\rangle^{B}$中的一个{\quorum}。由于对于任何$v\in V^-$来说$V^+$都不是{\vblock}的，那么由定理\ref{thm:quorum_availability_vs_vblocking}要么$V^-=\emptyset$要么$V^-$是$\langle\mybm{V},\mybm{Q}\rangle^{B}$中的一个{\quorum}。后一种情形导致这样一个矛盾：由于$V^-$只包含完好的（因此也是良性行为的）节点，它们当中的没有能够在首先真正接受$a$的情况下声明$accept(a)$，这意味着$U_a\backslash B\cap V^-=\emptyset$。然而这是不可能的，因为除$B$（一个$DSet$）{\quorum}可交性告诉我们它的反面，即$U_a\backslash B\cap V^-\neq\emptyset$。	一旦每个节点都接受了$a$，所有的都会投票赞成确认$a$。因为完好的节点构成了一个{\quorum}，这些投票将会成功。
+	由定理\ref{thm:quorum_subset_is_quorum}，$U_a\backslash B$是$\langle\mybm{V},\mybm{Q}\rangle^{B}$中的一个{\quorum}。由于对于任何$v\in V^-$来说$V^+$都不是{\vblock}的，那么由定理\ref{thm:quorum_availability_vs_vblocking} 要么$V^-=\emptyset$要么$V^-$是$\langle\mybm{V},\mybm{Q}\rangle^{B}$中的一个{\quorum}。后一种情形导致这样一个矛盾：由于$V^-$只包含完好的（因此也是良性行为的）节点，它们当中的没有能够在首先真正接受$a$的情况下声明$accept(a)$，这意味着$U_a\backslash B\cap V^-=\emptyset$。然而这是不可能的，因为除$B$（一个$DSet$）{\quorum}可交性告诉我们它的反面：$U_a\backslash B\cap V^-\neq\emptyset$。剩下只可能是$V^-=\emptyset$。一旦每个节点都接受了$a$，所有的都会投票赞成确认$a$。因为完好的节点构成了一个{\quorum}，这些投票将会成功。
 \end{proof}
 
-\todo{图11}总结了一个完好的节点为了确认$a$可以使用的路径。在不知情的状态下，$v$可能会赞成$a$或者与之冲突的$\bar a$。如果$v$投票赞成$\bar a$，它之后不会再赞成$a$，但是如果一个{\vblock}集合接受了$a$它却可以接受$a$。接下来确认消息的{\quorum}允许$v$去确认$a$，由定理\ref{thm:confirmed_stats_keep_liveness}这意味着系统认可$a$。
+\todo{图11}总结了一个完好的节点为了确认$a$可以采用的路径。在不知情的状态下，$v$可能会赞成$a$或者与之冲突的$\bar a$。如果$v$投票赞成$\bar a$，它之后不会再赞成$a$；但是如果一个{\vblock}集合接受了$a$那么$v$却可以接受$a$。接下来确认消息的{\quorum}允许$v$去确认$a$，由定理\ref{thm:confirmed_stats_keep_liveness}这意味着系统认可$a$。
