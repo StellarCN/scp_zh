@@ -1,8 +1,8 @@
 \subsection{接受陈述}
 
-当一个完好的节点$v$意识到它已经批准了一个陈述之后，定理\ref{thm:intact_cannot_ratify_contracdictory}告诉$v$其他完好的节点不会批准与之相冲突的陈述。这是让$v$接受$a$的充分条件，但我们不能让它也是必要的。批准一个陈述要求给它投票，而一些节点可能已经赞成了和$a$相冲突的陈述。例如在\todo{图9}中，$v_4$在意识到其他几个节点赞成$a$之前投票赞成了$\bar a$。尽管$v_4$不能够赞成$a$，我们仍然希望它接受$a$以和其他节点相一致。
+当一个完好的节点$v$意识到它已经批准了一个陈述之后，定理\ref{thm:intact_cannot_ratify_contracdictory}告诉$v$其它完好的节点不会批准与之相冲突的陈述。这是让$v$接受$a$的充分条件，但我们不能让它也是必要的。批准一个陈述要求给它投票，而一些节点可能已经赞成了和$a$相冲突的陈述。例如在\todo{图9}中，$v_4$在意识到其它几个节点赞成$a$之前投票赞成了$\bar a$。尽管$v_4$不能够赞成$a$，我们仍然希望它接受$a$以和其它节点相一致。
 
-一个关键的认识是，如果一个节点$v$是完好的，那么不存在一个完全包含被污染节点的{\vblock}集$B$。现在假定$B$是一个{\vblock}集而$B$中每个成员都要求接受陈述$a$。如果$v$是完好的，$B$中至少有一个元素也是完好的。完好的节点不会对接受陈述$a$撒谎；因此，$a$是真的并且$v$能够接受它。当然，如果$v$是被污染的，那么$a$就可能不是真的。但是一个被污染的节点可能会接受任何陈述而显然不影响完好节点的安全性。
+一个关键的认识是，如果一个节点$v$是完好的，那么不存在一个完全包含被污染节点的{\vblock}集$B$。现在假定$B$是一个{\vblock}集而$B$中每个成员都要求接受陈述$a$。如果$v$是完好的，$B$中至少有一个元素也是完好的。完好的节点不会对接受陈述$a$撒谎；因此，$a$为真并且$v$能够接受它。当然，如果$v$是被污染的，那么$a$就可能不是真的。但是一个被污染的节点可能会接受任何陈述而显然不影响完好节点的安全性。
 
 \begin{definition}[接受]
         一个FBAS的节点$v$\textbf{接受}一个陈述$a$当且仅当它从未接受过和$a$相冲突的陈述且它决定下述条件之一：
@@ -12,12 +12,12 @@
         \end{enumerate}
 \end{definition}
 
-尽管一个良性行为的节点不会投票赞成相互矛盾的陈述，上述的条件\ref{itm:cond_vblock}允许一个节点\textit{投票}赞成一个陈述但之后\textit{接受}一个相冲突的陈述。
+尽管一个良性行为的节点不会投票赞成相互矛盾的陈述，上面的条件\ref{itm:cond_vblock}允许一个节点\textit{投票}赞成一个陈述但之后\textit{接受}一个相冲突的陈述。
 
-\begin{theorem}\label{th8}
+\begin{theorem}\label{thm:intact_cannot_accept_contradictory}
         在一个有{\quorum}交的FBAS系统中的两个完整节点不会接受相互冲突的陈述。
 \end{theorem}
 
 \begin{proof}
-        设$\langle\mybm{V},\mybm{Q}\rangle$是有{\quorum}交的FBAS，$B$是被污染节点的$DSet$（其存在性由定理\ref{thm:befouleds_are_dset}给出）。假定一个完好的节点接受陈述$a$。设$v$是第一个接受$a$的节点。在$v$接受$a$时，只有$B$中的被污染节点能够声称接受它。由定理\ref{thm:quorum_availability_vs_vblocking}的结论，$B$不会是{\vblock}的，则必是通过条件\ref{itm:cond_normal}来接受$a$的。因此，$v$可以找到一个{\quorum}$U$使得其中的每个节点声称投票赞成或接受$a$，而由于$v$是第一个接受$a$的完好节点，这必意味着$\mybm{U}\backslash B$中的节点都投票赞成$a$。换句话说，$v$在$\langle\mybm{V},\mybm{Q}\rangle^{B}$中批准了$a$。一般化而言，任何一个被$\langle\mybm{V},\mybm{Q}\rangle$中完好节点所接受的陈述必定在$\langle\mybm{V},\mybm{Q}\rangle^{B}$中被批准。由于$B$是一个DSet，$\langle\mybm{V},\mybm{Q}\rangle^{B}$具有{\quorum}交。另外由于$B$包含所有的恶性行为节点，定理\ref{thm:cannot_ratify_contradictory}过滤掉了那些对相互冲突的节点的批准。
+        设$\langle\mybm{V},\mybm{Q}\rangle$是有{\quorum}交的FBAS，$B$是被污染节点的$DSet$（其存在性由定理\ref{thm:befouleds_are_dset}给出）。假定一个完好的节点接受陈述$a$。设$v$是第一个接受$a$的节点。在$v$接受$a$时，只有$B$中的被污染节点能够声称接受它。由定理\ref{thm:quorum_availability_vs_vblocking}的结论，$B$不会是{\vblock}的，则必是通过条件\ref{itm:cond_normal}来接受$a$的。因此，$v$可以找到一个{\quorum}$U$使得其中的每个节点声称投票赞成或接受$a$，而由于$v$是第一个接受$a$的完好节点，这必意味着$U\backslash B$中的节点都投票赞成$a$。换句话说，$v$在$\langle\mybm{V},\mybm{Q}\rangle^{B}$中批准了$a$。一般化而言，任何一个被$\langle\mybm{V},\mybm{Q}\rangle$中完好节点所接受的陈述必定在$\langle\mybm{V},\mybm{Q}\rangle^{B}$中被批准。由于$B$是一个DSet，$\langle\mybm{V},\mybm{Q}\rangle^{B}$具有{\quorum}交。另外由于$B$包含所有的恶性行为节点，定理\ref{thm:cannot_ratify_contradictory}过滤掉了那些对相互冲突的节点的批准。
 \end{proof}

@@ -19,7 +19,7 @@
 \begin{proof}
         一个节点只有在它看到了来自{\quorum}$U$的消息时才开始计时，这是每个$U$中的成员都有一个等于或大于$n$的计数值。如果$U$中包含了所有的完好节点，结论已然成立。否则，令$U^{\prime}\neq \emptyset$是$U$的完好节点子集。根据除被污染$DSet${\quorum}可交性，比存在至少一个完好节点$v\not\in U$使得$U^{\prime}$是$\vblock$的。（否则定理\ref{th10}的证明给出矛盾。）
         
-	如果$\forall v^{\prime}\in U^{\prime},\varphi=\textsl{PREPARE}$，意味着$\forall v^{\prime}\in U^{\prime},b_{v^{\prime}}.n\neq \infty$，那么由\todo{页xxx}的第\ref{enum:giveup1}个条件，$v$将会简单地提升$b_v$直到$b_v.n\geq n$。否则，假设$\exists v^{\prime}\in U^{\prime}$使得$\varphi_{v^{\prime}}=\textsl{PRIVATE}$。这意味着$v^{\prime}$（或其他完好节点）确认$c_{v^{\prime}}$就绪了且接受了$commit\;c_{v^{\prime}}$。因此，由定理\ref{th10}，$v$也将在它接受到足够多的其他完好节点的消息之后确认$c_{v^{\prime}}$是就绪的。此外，根据定理\ref{th8}任何完好节点都不会接受任何$b^{\prime}\gnsim c_{v^{\prime}}$的表决为就绪的。这意味着一旦$P_v\gtrsim c_{v^{\prime}}$成立，它将永远继续成立下去，再次由于条件\ref{enum:giveup1}$v$将增加$b_v$直到$b_v.n\geq n$。
+	如果$\forall v^{\prime}\in U^{\prime},\varphi=\textsl{PREPARE}$，意味着$\forall v^{\prime}\in U^{\prime},b_{v^{\prime}}.n\neq \infty$，那么由\todo{页xxx}的第\ref{enum:giveup1}个条件，$v$将会简单地提升$b_v$直到$b_v.n\geq n$。否则，假设$\exists v^{\prime}\in U^{\prime}$使得$\varphi_{v^{\prime}}=\textsl{PRIVATE}$。这意味着$v^{\prime}$（或其它完好节点）确认$c_{v^{\prime}}$就绪了且接受了$commit\;c_{v^{\prime}}$。因此，由定理\ref{th10}，$v$也将在它接受到足够多的其它完好节点的消息之后确认$c_{v^{\prime}}$是就绪的。此外，根据定理\ref{thm:intact_cannot_accept_contradictory}任何完好节点都不会接受任何$b^{\prime}\gnsim c_{v^{\prime}}$的表决为就绪的。这意味着一旦$P_v\gtrsim c_{v^{\prime}}$成立，它将永远继续成立下去，再次由于条件\ref{enum:giveup1}$v$将增加$b_v$直到$b_v.n\geq n$。
         
         既然$b_v.n\geq n$，如果完好节点中还有一个小的表决计数器那么在前两个段落中提到的过程将至少提升这样节点中的一个，这同样要求没有超时限制。这个过程将会重复直到翁恩完好的节点的表决计数器都大于等于$n$。
 \end{proof}
@@ -29,7 +29,7 @@
 \end{theorem}
 
 \begin{proof}
-        根据定理\ref{th14}，所有的节点最终将会有候选值的相容集合$Z$。假设已经经历了这个时刻并且每个完好节点都有相同的合成值$z=combine(Z)$。如果没有节点在$b.x=z$不满足的情形下从未确认任何表决$b$是就绪的，那么所有新的完好节点的表决将会有值$z$。令$b=\langle n,z\rangle$为任何完好节点中的最高的含$z$表决。最终其他节点将会超时而赶上$b$，直到一个{\quorum}赶上而开始设置新的计时器。如果时间足够长，那么根据定理\ref{th13}其他节点将会赶上而它们将会完成协议，确认$commit\;b$。
+        根据定理\ref{th14}，所有的节点最终将会有候选值的相容集合$Z$。假设已经经历了这个时刻并且每个完好节点都有相同的合成值$z=combine(Z)$。如果没有节点在$b.x=z$不满足的情形下从未确认任何表决$b$是就绪的，那么所有新的完好节点的表决将会有值$z$。令$b=\langle n,z\rangle$为任何完好节点中的最高的含$z$表决。最终其它节点将会超时而赶上$b$，直到一个{\quorum}赶上而开始设置新的计时器。如果时间足够长，那么根据定理\ref{th13}其它节点将会赶上而它们将会完成协议，确认$commit\;b$。
         
         否则，给定足够长的时间，根据定理\ref{th10}最终完好节点将收敛于相同的$P$。这时，如果我们将$z=combine(Z)$替换为$z=P.x$的话那么和前段中一样的参数也会成立。
 \end{proof}

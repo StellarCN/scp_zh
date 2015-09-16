@@ -13,6 +13,7 @@
 - 他们/它们
 - others一律翻译为"其它"
 - progress
+- statement
 
 翻译风格
 ------
