@@ -1,9 +1,9 @@
 \subsection{正确性}\label{sec:scp_correct}
 
-一个节点只有在已经许诺确认所有小编号的表决的\textit{终止}陈述之后才能担保确认$commit\;b$陈述。因为一个良性行为的节点不能够接受（因此也不担保确认）相冲突的陈述，这意味着对于给定的$\mybm{V},\mybm{Q}$，定理\ref{thm:nodes_cannot_ratify_contracdictory}确保一个良性行为节点集合$S$只要享有除$\mybm{V}\backslash S${\quorum}可交性则不会产生相互冲突的值。如果$\mybm{V}$和$\mybm{Q}$只在{\slot}间改变的话那么安全性仍然成立，但如果它们在{\slot}中（mid-slot）改变呢（例如用于应对节点崩溃）？为了分析在重新配置的情形下的安全性，我们保守地对旧的和新的{\quorum}切片集合进行交操作；这反映了这样一个事实：节点可能依据来自不同时期的消息的组合来作出决定。因此很保守地讲，一个节点只有在当前{\slot}用到的每个配置下都是完好的我们才说它是完好节点。但是我们可以放松要求而说：如果一个节点在最近的配置中都是完好的并且在以往的配置中从未接受过来自全部由恶性行为节点的{\vblock}集合发来的消息，则我们称该节点是完好的。
+一个节点只有在已经许诺确认所有小编号的表决的\textit{终止}陈述之后才能担保确认$commit\;b$陈述。因为一个良性行为的节点不能够接受(因此也不担保确认)相冲突的陈述，这意味着对于给定的$\mybm{V},\mybm{Q}$，定理\ref{thm:nodes_cannot_ratify_contracdictory}确保一个良性行为节点集合$S$只要享有除$\mybm{V}\backslash S${\quorum}可交性则不会产生相互冲突的值。如果$\mybm{V}$和$\mybm{Q}$只在{\slot}间改变的话那么安全性仍然成立，但如果它们在{\slot}中(mid-slot)改变呢(例如用于应对节点崩溃)？为了分析在重新配置的情形下的安全性，我们保守地对旧的和新的{\quorum}切片集合进行交操作；这反映了这样一个事实：节点可能依据来自不同时期的消息的组合来作出决定。因此很保守地讲，一个节点只有在当前{\slot}用到的每个配置下都是完好的我们才说它是完好节点。但是我们可以放松要求而说：如果一个节点在最近的配置中都是完好的并且在以往的配置中从未接受过来自全部由恶性行为节点的{\vblock}集合发来的消息，则我们称该节点是完好的。
 
 \begin{theorem}\label{th12}
-        令$\langle \mybm{V_1},\mybm{Q_1}\rangle,\ldots,\langle \mybm{V_k},\mybm{Q_k}\rangle$是一个FBAS在协商一个单独{\slot}的时候经历过的配置集合。令$\mybm{V}=\mybm{V_1}\cup \cdots\cup \mybm{V_k}$且$\mybm{Q}(v)=\left\{q|\exists j, v\in\mybm{V_j}\cap q\in\mybm{Q}_j(v)\right\}$。令$B\subseteq\mybm{V}$是一个集合，满足$B$包含所有已经发送了非法消息的恶性行为节点——尽管$\mybm{Q}\backslash B$可能仍然包含崩溃（不响应）的节点。假设$v_1\not\in B$具体化了$x_1$,而$v_2\not\in B$具体化了$x_2$。则如果$\langle\mybm{V},\mybm{Q}\rangle^{B}$有{\quorum}交，那么$x_1=x_2$。
+        令$\langle \mybm{V_1},\mybm{Q_1}\rangle,\ldots,\langle \mybm{V_k},\mybm{Q_k}\rangle$是一个FBAS在协商一个单独{\slot}的时候经历过的配置集合。令$\mybm{V}=\mybm{V_1}\cup \cdots\cup \mybm{V_k}$且$\mybm{Q}(v)=\left\{q|\exists j, v\in\mybm{V_j}\cap q\in\mybm{Q}_j(v)\right\}$。令$B\subseteq\mybm{V}$是一个集合，满足$B$包含所有已经发送了非法消息的恶性行为节点——尽管$\mybm{Q}\backslash B$可能仍然包含崩溃(不响应)的节点。假设$v_1\not\in B$具体化了$x_1$,而$v_2\not\in B$具体化了$x_2$。则如果$\langle\mybm{V},\mybm{Q}\rangle^{B}$有{\quorum}交，那么$x_1=x_2$。
 \end{theorem}
 
 \begin{proof}
@@ -17,9 +17,9 @@
 \end{theorem}
 
 \begin{proof}
-        一个节点只有在它看到了来自{\quorum}$U$的消息时才开始计时，这是每个$U$中的成员都有一个等于或大于$n$的计数值。如果$U$中包含了所有的完好节点，结论已然成立。否则，令$U^{\prime}\neq \emptyset$是$U$的完好节点子集。根据除被污染$DSet${\quorum}可交性，比存在至少一个完好节点$v\not\in U$使得$U^{\prime}$是$\vblock$的。（否则定理\ref{thm:confirmed_stats_keep_liveness}的证明给出矛盾。）
+        一个节点只有在它看到了来自{\quorum}$U$的消息时才开始计时，这是每个$U$中的成员都有一个等于或大于$n$的计数值。如果$U$中包含了所有的完好节点，结论已然成立。否则，令$U^{\prime}\neq \emptyset$是$U$的完好节点子集。根据除被污染$DSet${\quorum}可交性，比存在至少一个完好节点$v\not\in U$使得$U^{\prime}$是$\vblock$的。(否则定理\ref{thm:confirmed_stats_keep_liveness}的证明给出矛盾。)
         
-	如果$\forall v^{\prime}\in U^{\prime},\varphi=\textsl{PREPARE}$，意味着$\forall v^{\prime}\in U^{\prime},b_{v^{\prime}}.n\neq \infty$，那么由\todo{页xxx}的第\ref{enum:giveup1}个条件，$v$将会简单地提升$b_v$直到$b_v.n\geq n$。否则，假设$\exists v^{\prime}\in U^{\prime}$使得$\varphi_{v^{\prime}}=\textsl{PRIVATE}$。这意味着$v^{\prime}$（或其它完好节点）确认$c_{v^{\prime}}$就绪了且接受了$commit\;c_{v^{\prime}}$。因此，由定理\ref{thm:confirmed_stats_keep_liveness}，$v$也将在它接受到足够多的其它完好节点的消息之后确认$c_{v^{\prime}}$是就绪的。此外，根据定理\ref{thm:intact_cannot_accept_contradictory}任何完好节点都不会接受任何$b^{\prime}\gnsim c_{v^{\prime}}$的表决为就绪的。这意味着一旦$P_v\gtrsim c_{v^{\prime}}$成立，它将永远继续成立下去，再次由于条件\ref{enum:giveup1}$v$将增加$b_v$直到$b_v.n\geq n$。
+	如果$\forall v^{\prime}\in U^{\prime},\varphi=\textsl{PREPARE}$，意味着$\forall v^{\prime}\in U^{\prime},b_{v^{\prime}}.n\neq \infty$，那么由\todo{页xxx}的第\ref{enum:giveup1}个条件，$v$将会简单地提升$b_v$直到$b_v.n\geq n$。否则，假设$\exists v^{\prime}\in U^{\prime}$使得$\varphi_{v^{\prime}}=\textsl{PRIVATE}$。这意味着$v^{\prime}$(或其它完好节点)确认$c_{v^{\prime}}$就绪了且接受了$commit\;c_{v^{\prime}}$。因此，由定理\ref{thm:confirmed_stats_keep_liveness}，$v$也将在它接受到足够多的其它完好节点的消息之后确认$c_{v^{\prime}}$是就绪的。此外，根据定理\ref{thm:intact_cannot_accept_contradictory}任何完好节点都不会接受任何$b^{\prime}\gnsim c_{v^{\prime}}$的表决为就绪的。这意味着一旦$P_v\gtrsim c_{v^{\prime}}$成立，它将永远继续成立下去，再次由于条件\ref{enum:giveup1}$v$将增加$b_v$直到$b_v.n\geq n$。
         
         既然$b_v.n\geq n$，如果完好节点中还有一个小的表决计数器那么在前两个段落中提到的过程将至少提升这样节点中的一个，这同样要求没有超时限制。这个过程将会重复直到翁恩完好的节点的表决计数器都大于等于$n$。
 \end{proof}
@@ -34,4 +34,4 @@
         否则，给定足够长的时间，根据定理\ref{thm:confirmed_stats_keep_liveness}最终完好节点将收敛于相同的$P$。这时，如果我们将$z=combine(Z)$替换为$z=P.x$的话那么和前段中一样的参数也会成立。
 \end{proof}
 
-值得注意的是如果我们去除了``足够超时限制''这一条件的话那么定理\ref{th14}不再为真。特别地，存在这样一个时间段，一个完好节点集合已经进行了足够多的投票来确认一个表决就绪了，而此时此刻节点意识到该表决确实确认就绪了。在有足够长的消息延迟的情况下，节点可以潜在地在不同的$P.x$值之间选择——即在任何节点意识到$P$已经确认就绪了之前，每个节点已经前移了并投票确认$P^{\prime}\gnsim P$已经就绪。根据著名的不可能性结果~\cite{Fischer:1985:IDC:3149.214121}，一些持久性抢占情景是不可避免的。因此，我们最可能希望的是在一个半异步（partial synchrony）~\cite{Dwork:1988:CPP:42282.42283}的假设下的存活性，这正式定理\ref{th14}给我们保证的。
+值得注意的是如果我们去除了``足够超时限制''这一条件的话那么定理\ref{th14}不再为真。特别地，存在这样一个时间段，一个完好节点集合已经进行了足够多的投票来确认一个表决就绪了，而此时此刻节点意识到该表决确实确认就绪了。在有足够长的消息延迟的情况下，节点可以潜在地在不同的$P.x$值之间选择——即在任何节点意识到$P$已经确认就绪了之前，每个节点已经前移了并投票确认$P^{\prime}\gnsim P$已经就绪。根据著名的不可能性结果~\cite{Fischer:1985:IDC:3149.214121}，一些持久性抢占情景是不可避免的。因此，我们最可能希望的是在一个半异步(partial synchrony)~\cite{Dwork:1988:CPP:42282.42283}的假设下的存活性，这正式定理\ref{th14}给我们保证的。

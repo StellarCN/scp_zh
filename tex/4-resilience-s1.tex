@@ -13,7 +13,7 @@
 事实上，由于恶性节点对安全性毫无用处，任何一个协议必须在良性行为节点在它们自己那里享有{\quorum}交的情形下才能保证安全性。毕竟，在安全性最坏的场景下，所有的恶性行为的节点都可能持续性地做出不一致的陈述来使得{\quorum}产生分歧。两个仅在恶性节点处相重叠的{\quorum}由于恶性节点的欺骗同样会像运行在两个不同的FBAS系统里一样。总之，FBAS$\langle \mybm{V},\mybm{Q}\rangle$可以在节点集合$B\subseteq \mybm{V}$的拜占庭错误中生存下来当且仅当$\langle\mybm{Q},\mybm{V}\rangle$在从$\mybm{V}$和$\mybm{Q}$中的所有切片中删除了$B$中的节点之后仍然有{\quorum}交。更形式化的描述是：
 
 \begin{definition}[删除]
-	如果$\langle\mybm{Q},\mybm{V}\rangle$是一个FBAS并且$B\subseteq \mybm{V}$是一个节点集合，那么从$\langle\mybm{V},\mybm{Q}\rangle$中\textit{删除}$B$（记作$\langle\mybm{V},\mybm{Q}\rangle^B$），意味着计算修改过后的FBAS $\langle\mybm{V}\backslash B, \mybm{Q}^B\rangle$，这里$\mybm{Q}^B(v)=\left\{q\backslash B|q\in\mybm{Q(v)}\right\}$。
+	如果$\langle\mybm{Q},\mybm{V}\rangle$是一个FBAS并且$B\subseteq \mybm{V}$是一个节点集合，那么从$\langle\mybm{V},\mybm{Q}\rangle$中\textit{删除}$B$(记作$\langle\mybm{V},\mybm{Q}\rangle^B$)，意味着计算修改过后的FBAS $\langle\mybm{V}\backslash B, \mybm{Q}^B\rangle$，这里$\mybm{Q}^B(v)=\left\{q\backslash B|q\in\mybm{Q(v)}\right\}$。
 \end{definition}
 
 每个节点$v$有责任确保$\mybm{Q}(v)$不会违背{\quorum}交。一种做法是选择保守的切片，这会导致较大的{\quorum}。当然，一个恶意的$v$可能会故意地选择能够违反{\quorum}交的$\mybm{Q}$。然而一个恶意的$v$还可能对$\mybm{Q}(v)$的值撒谎或者忽略$\mybm{Q}(v)$来做出随意的断言。总之，当$v$是恶性行为的时候$\mybm{Q}(v)$的值是没有意义的。这就是为什么安全性的必要属性——在删除恶性行为节点之后的良性行为节点仍然有{\quorum}交——是不受恶性行为节点的切片影响的。
