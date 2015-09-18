@@ -7,7 +7,7 @@
 - liveness 存活性
 - agreement: 协商；一致性
 - safety vs security需注解
-- voting: 选举；投票
+- voting: 选举；投票 -- 抽象用'选举'，具体用'投票'
 - permanent
 - quorum intersection 群体可交性；群体交
 - 他们/它们
@@ -16,6 +16,7 @@
 - statement
 - accepted statement/ confirmed statement
 - state/claim
+- abort和terminate需要区分
 
 翻译风格
 ------
@@ -26,7 +27,7 @@
 
 环境
 ------
-- 圆括号 -- 全角，半角？
+- 圆括号 -- 半角
 - 数学环境
   - 证明环境qed
   - 定理公式编号
