@@ -1,11 +1,55 @@
 \documentclass[a4paper,onecolumn,12pt]{article}
+%\documentclass[prodmode,acmtocs]{acmsmall}
 
-\usepackage{glossaries}
-\makeglossaries
+\usepackage{graphicx}
+\usepackage{amsmath, amsfonts, amssymb}
+\usepackage{bm}
+\usepackage[xetex]{hyperref}
+%\usepackage[all]{hypcap}
 
-%\usepackage{enumerate}
-%\usepackage[lined,boxed,commentsnumbered,ruled]{algorithm2e}
-%\usepackage[margin=2.5cm]{geometry}
+%\usepackage{glossaries}
+%\makeglossaries
+
+% Not ACM compliant, but much better looking
+% \usepackage[notext]{stix} 
+% \def\UrlFont{\ttfamily}
+% \renewcommand{\ttdefault}{txtt}
+
+\usepackage{booktabs,colortbl,tabu}
+\usepackage{xspace}
+
+%%%%%%%%%%%%%%%%%%%%
+\usepackage{xcolor}
+\definecolor{few-gray-bright}{HTML}{010202}
+\definecolor{few-red-bright}{HTML}{EE2E2F}
+\definecolor{few-green-bright}{HTML}{008C48}
+\definecolor{few-blue-bright}{HTML}{185AA9}
+\definecolor{few-orange-bright}{HTML}{F47D23}
+\definecolor{few-purple-bright}{HTML}{662C91}
+\definecolor{few-brown-bright}{HTML}{A21D21}
+\definecolor{few-pink-bright}{HTML}{B43894}
+
+\definecolor{few-gray}{HTML}{737373}
+\definecolor{few-red}{HTML}{F15A60}
+\definecolor{few-green}{HTML}{7AC36A}
+\definecolor{few-blue}{HTML}{5A9BD4}
+\definecolor{few-orange}{HTML}{FAA75B}
+\definecolor{few-purple}{HTML}{9E67AB}
+\definecolor{few-brown}{HTML}{CE7058}
+\definecolor{few-pink}{HTML}{D77FB4}
+
+\definecolor{few-gray-light}{HTML}{CCCCCC}
+\definecolor{few-red-light}{HTML}{F2AFAD}
+\definecolor{few-green-light}{HTML}{D9E4AA}
+\definecolor{few-blue-light}{HTML}{B8D2EC}
+\definecolor{few-orange-light}{HTML}{F3D1B0}
+\definecolor{few-purple-light}{HTML}{D5B2D4}
+\definecolor{few-brown-light}{HTML}{DDB9A9}
+\definecolor{few-pink-light}{HTML}{EBC0DA}
+
+\newcommand{\maincolor}{orange}
+\taburulecolor{few-\maincolor-bright}
+%%%%%%%%%%%%%%%%%%%%
 
 \usepackage{fontspec}
 \usepackage[slantfont, boldfont]{xeCJK} % 允许斜体和粗体
@@ -20,20 +64,6 @@
 \punctstyle{kaiming} % 开明式标点格式
 \usepackage{indentfirst} % 首段缩进
 \setlength{\parindent}{2em}
-
-\usepackage{xcolor}
-\usepackage{graphicx}
-
-%\usepackage{mathrsfs}
-\usepackage{bbding}
-\usepackage{listings}
-
-\usepackage{amsmath}
-\usepackage{amsfonts}
-\usepackage{amssymb}
-\usepackage{bm}
-
-\usepackage[xetex]{hyperref}
 
 \hypersetup{colorlinks, linkcolor=black,
   filecolor=black, urlcolor=black, citecolor=blue, pdftitle={恒星共识协议：互联网级共识的联邦模型}, pdfauthor={David Mazi{\`e}res}, pdfsubject={联邦拜占庭协议}, pdfkeywords={FBA, SCP}, pdfproducer={xelatex} }
@@ -56,9 +86,11 @@
 \renewcommand\refname{参考文献}
 \renewcommand{\abstractname}{摘\hspace{2em}要}
 
+\newcommand{\FBA}{SCP\@\xspace}
+
 \title{恒星共识协议：互联网级共识的联邦模型}
 \author{David Mazi{\`e}res\\恒星发展基金会}
-\date{2015-7-14，草稿}
+\date{}
 
 \begin{document}
 \maketitle
@@ -75,7 +107,7 @@
 \input{tex/app1-ack}
 \input{tex/app2-disclaimer}
 %\input{tex/appA-glossary}
-\printglossaries
+%\printglossaries
 
 \bibliographystyle{abbrv}
 \bibliography{ref}
