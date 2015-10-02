@@ -1,8 +1,107 @@
 \subsubsection{具体的表决协议}\label{sec:scp_ballot_concrete}
 
-\todo{图16}强调了由每个节点维护的每一{\slot}的状态。一个节点$v$存储了：它当前的表决$b$；两个最近的已经认定就绪的且不相容的表决对$(p,p^{\prime})$；它必须投票\textit{提交}的(或在后续阶段需要确认\textit{提交}的)最小表决$c$(如果存在的话)，对此它还没有接着接受到\textit{终止类}陈述；已确认就绪的最高表决$P$；从每个节点($M$)处接受到的最新消息；以及状态$\varphi$。表决$b$，$p$，$p^{\prime}$和$P$在同一个阶段里是不减的。另外，如果$c\neq\mybm{0}$——意味着$v$可能参与了批准$commit\;c$——代码必须确保$c\lesssim P\lesssim b$。这一不变量保证了节点总是可以投票为当前的表决$b$做好准备。
+\begin{figure}
 
-\todo{图17}展示了协议消息。注意$a\;\vee accept(a)$是每个节点需要为一个{\quorum}所断言的，使得它们按照\textit{接受}定义中的第\ref{itm:cond_normal}种方式接受$a$。每个节点通过设置$b\leftarrow \langle 1,combine(Z)\rangle$，$p\leftarrow \mybm{0}$，$p^{\prime}\leftarrow \mybm{0}$，$P\leftarrow \mybm{0}$，$c\leftarrow \mybm{0}$，$M\leftarrow\emptyset$及$\varphi \leftarrow \textsl{PREPARE}$的方式初始化{\slot}的状态。之后节点在同类间重复地交换消息，发送由 $\varphi$表明的任何消息。一旦给$M$添加了一个新近接受的消息，一个节点$v$按照下面的方式添加它的状态：
+  \begin{tabu}{rX[1,l]<{\vrule width 0pt height 0pt depth 1.5ex}}
+\toprule
+    \rowfont\bfseries 变量 & \multicolumn{1}{l}{含义} \\
+\midrule
+
+$\varphi$ & 当前阶段: \textit{就绪}, \textit{确认}, \textit{具体化}三者之一 \\
+
+$b$ & 节点$v$正尝试\textit{准备}或\textit{提交}的当前表决($b\ne\bzero$)\\
+
+$p',p$ & 最高的两个被接受为\textit{就绪}的最高表决，满足$p'\lnsim p$, 这里 $p'=\bzero$ 或 $p=p'=\bzero$~(如果没有这样的表决的话)\\
+
+$c, h$ &
+%
+\setbox0=\hbox{处于\textit{就绪态}时: }
+\hangindent=\wd0\hangafter=1
+%
+\unhbox0 $h$ 是被确认为就绪的最大表决,如果没有这样的表决则为\bzero;如果$c\ne\bzero$, 那么 $c$和$h$分别是最低和最高的$v$投票\textit{提交}且未接受\textit{终止}的表决。\par
+%
+处于\textit{确认态}时: $v$所接受\textit{提交}的最低和最高表决。\par
+%
+处于\textit{具体化}态时: $v$所确认\textit{提交}\par
+%
+\textbf{不变量}:  若$c\ne\bzero$, 则$c\lesssim h \lesssim b$. \\
+$z$ & 在下一个表决中用到的值。 如果$h=\bzero$, 那么
+$z=\mathrm{combine}(Z)$ (参见图\ref{fig:nomstate}); 否则按一定概率更新为$z=h.x$ (参见\ref{sec:timers}小节). \\
+
+$M$ & 每个节点所能看到的最新表决消息集合\\[-.5ex]
+\bottomrule
+  \end{tabu}
+\caption{每个节点$v$为每个{\slot}维护的表决状态}
+\label{fig:state}
+\end{figure}
+
+
+\begin{figure}
+{\centering
+\abovedisplayskip4pt
+\belowdisplayskip4pt
+\begin{tikzpicture}
+  \node[draw=few-\maincolor-bright,thick,
+    text width=\textwidth-24pt, align=justify,
+    outer sep=0pt,
+    inner xsep=12pt, inner ysep=-6pt]
+       {
+  %\begin{description}[style=nextline]
+  %\begin{itemize}[leftmargin=2ex]
+  \begin{description}[style=nextline,leftmargin=2ex]
+  \item[\mdseries \textit{准备}~$v~i~b~p~p'~c.n~h.x~D$]
+%
+这是一个来自$v$的关于{\slot} $i$的消息$D$指定了$\mybm{Q}(v)$。其他域表征$v$的状态。当$c.n\neq 0$时$c.x$和$h.x$略作$c.x=h.x=b.x$。这一具体消息编码了这样的一类抽象消息，具体如下:
+%
+{%\parskip=0pt
+\begin{itemize}[topsep=4pt,itemsep=4pt]
+\item 
+  \(\{\, \emph{abort}~b' \;\vee\; \confirm{\emph{abort}~b'} \mid b'\lnsim b
+  \,\}\)
+  \hfill(使得$b$进入就绪的投票)
+%
+\item \(\{\,\confirm{\emph{abort}~b'} \mid
+  b'\lnsim p\,\}\)
+  \hfill (确认$p$处于就绪态的投票)
+\item \(\{\,\confirm{\emph{abort}~b'}
+  \mid b'\lnsim p'\,\}\)
+  \hfill(确认$p'$处于就绪态的投票)
+\item 
+  $\{\,\emph{commit}~b' \mid c.n\ne0 \;\wedge\;
+  c\lesssim b'\lesssim h \,\}$
+  \hfill(在$c\ne\bzero$的条件下提交$c,\ldots,h$的投票)
+\end{itemize}}
+%
+  \item[\mdseries \textit{确认}~$v~i~b~p.n~c.n~h.n~D$]
+%
+在一个\textit{提交}之后由$v$发送的试图为{\slot}$i$具体化$b.x$的消息。方便起见，我们也称$p'=\bzero$ (接受\textit{提交}之后$p'$就不再相关)。 同样，$D$指定了$\Q v$。编码包含:
+%
+    {%\parskip=0pt
+    \begin{itemize}[topsep=4pt,itemsep=4pt]
+    \item 由``\textit{准备}~$v~i~\langle\infty, b.x\rangle~p~\bzero~c.n~\infty~D$''蕴含的所有消息
+    \item $\{\, \confirm{\emph{commit}~b'} \mid c\lesssim b'\lesssim h \,\}$
+      \hfill (确认\textit{提交} $c,\ldots,h$的投票)
+    \end{itemize}}
+  \item[\mdseries \textit{具体化}~$v~i~x~c.n~h.n~D$]
+%
+在$v$确认为{\slot}$i$\textit{提交}$~\langle c.n,x\rangle$且具体化值$x$之后,这一消息帮助其他节点具体化$x$.  这蕴含了$c=\langle c.n,x\rangle$且$h=\langle n_h,x\rangle$.  方便期间, 我们也称$b=p=h=\langle\infty, x\rangle$, 且$p'=\bzero$。编码包含:
+%
+    {%\parskip=0pt
+      \begin{itemize}[topsep=4pt,itemsep=4pt]
+    \item ``\textit{确认}~$v~i~x~\infty~c.n~\infty~D$''蕴含的所有消息
+    \item ``\textit{确认}~$v~i~x~\infty~c.n~h.n~\{\{v\}\}$'' 蕴含的所有消息
+    \end{itemize}}
+    \null
+  \end{description}
+};
+\end{tikzpicture}}
+  \caption{\FBA 表决协议中的消息}
+\label{fig:messages}
+\end{figure}
+
+{图\ref{fig:state}}强调了由每个节点维护的每一{\slot}的状态。一个节点$v$存储了：它当前的表决$b$；两个最近的已经认定就绪的且不相容的表决对$(p,p^{\prime})$；它必须投票\textit{提交}的(或在后续阶段需要确认\textit{提交}的)最小表决$c$(如果存在的话)，对此它还没有接着接受到\textit{终止类}陈述；已确认就绪的最高表决$P$；从每个节点($M$)处接受到的最新消息；以及状态$\varphi$。表决$b$，$p$，$p^{\prime}$和$P$在同一个阶段里是不减的。另外，如果$c\neq\mybm{0}$——意味着$v$可能参与了批准$commit\;c$——代码必须确保$c\lesssim P\lesssim b$。这一不变量保证了节点总是可以投票为当前的表决$b$做好准备。
+
+{图\ref{fig:messages}}展示了协议消息。注意$a\;\vee accept(a)$是每个节点需要为一个{\quorum}所断言的，使得它们按照\textit{接受}定义中的第\ref{itm:cond_normal}种方式接受$a$。每个节点通过设置$b\leftarrow \langle 1,combine(Z)\rangle$，$p\leftarrow \mybm{0}$，$p^{\prime}\leftarrow \mybm{0}$，$P\leftarrow \mybm{0}$，$c\leftarrow \mybm{0}$，$M\leftarrow\emptyset$及$\varphi \leftarrow \textsl{PREPARE}$的方式初始化{\slot}的状态。之后节点在同类间重复地交换消息，发送由 $\varphi$表明的任何消息。一旦给$M$添加了一个新近接受的消息，一个节点$v$按照下面的方式添加它的状态：
 
 \begin{enumerate}\label{protocal_case}
 	\item 如果$\varphi = \textsl{PREPARE}$且接受的信息让$v$接受新表决是就绪的，更新$p$和$p^{\prime}$。之后，如果$c\neq \mybm{0}$且$p\gnsim P$或$p^{\prime}\gnsim P$，设置$c\leftarrow \mybm{0}$。
@@ -15,7 +114,7 @@
 
 当$c=\mybm{0}$时，上述协议实施联邦选举来确认$b$已经就绪。一旦$c\neq \mybm{0}$，该协议对$commit\;c$ (实际上是介于$c$和$P$之间的相容的表决)实施联邦选举。对确认阶段来说，一旦一个良性行为的节点$v$接受了$commit\;c$，该节点就不会接受或尝试确认任何满足$c^{\prime}\not\sim c$的$commit\;c^{\prime}$。因此直观上说，一旦一个\textit{提交}被确认了，只要节点具有{\quorum}交属性那么具体化它的值就是安全的。
 
-所有来自一个节点的消息在元组$\langle \varphi,b,p,p^{\prime},P\rangle$的定义之下是全序的，这里$\varphi$是最重要的域而$P$最不重要。所有的\textsl{PREPARE}消息都在\textsl{CONFIRM}消息之前，转而对于给定的{\slot}来说在单独的\textsl{EXTERNALIZE}消息之前。\textsl{PREPARE}信息显式地包含这四个域，而\textsl{CONFIRM}和\textsl{EXTERNALIZE}包含\todo{图17}中所描述的值。这一序关系使得$M$值包含来自每个节点的最新表决而不依赖于时间来排序消息成为可能，这是因为网络环境可能会对消息重新排序。
+所有来自一个节点的消息在元组$\langle \varphi,b,p,p^{\prime},P\rangle$的定义之下是全序的，这里$\varphi$是最重要的域而$P$最不重要。所有的\textsl{PREPARE}消息都在\textsl{CONFIRM}消息之前，转而对于给定的{\slot}来说在单独的\textsl{EXTERNALIZE}消息之前。\textsl{PREPARE}信息显式地包含这四个域，而\textsl{CONFIRM}和\textsl{EXTERNALIZE}包含{图\ref{fig:messages}}中所描述的值。这一序关系使得$M$值包含来自每个节点的最新表决而不依赖于时间来排序消息成为可能，这是因为网络环境可能会对消息重新排序。
 
 一些协议的细节需要解释。形如``$abort\;b^{\prime}\vee accpet(abort\;b^{\prime})$''的由\textsl{PREPARE}所蕴含的陈述并没有指明$v$是否赞成或确认$abort\;b^{\prime}$。对于\textit{接受}的定义来说这种区分并不重要。掩盖这种区分使得$v$忘记了旧的它投票提交(因此不能够投票终止)的表决--只要它为这些表决接受一个\textit{终止类}消息的话。
 

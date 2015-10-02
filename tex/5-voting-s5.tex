@@ -53,30 +53,16 @@
 \node[node] (C) at (9,1) {已确认~$a$};
 \node[node] (nP) at (3,-1) {已赞成~$\na$};
 \begin{scope}[on background layer]
-%\draw[transition] (P.60) to[out=60,in=180]
-%    (4.5,2) -- 
-%    (7.5,2)
-%    to[out=0,in=120]
-%    node[above,text depth=.5pt,pos=0] {have signed\\ evidence}
-%    (C.120);
 \draw[transition] (P.60) to[out=60,in=180]
     (4.5,2) 
     to[out=0,in=120,pos=0]
     node[above,text depth=.5pt,align=left] {\quorum
       赞成\\或接受$a$}
     (A.120);
-%\draw[transition] (A.60) to[out=60,in=180]
-%    node[above,pos=1,text depth=0pt] {ratify $\confirm a$} (7.5,2)
-%    to[out=0,in=120] (C.120);
 \draw[transition] (A.60) to[out=60,in=180]
     (7.5,2) to[out=0,in=120]
     node[above,pos=.01,text depth=0pt,align=left]
     {\quorum 确认 $a$}  (C.120);
-%\draw[transition] (A.-60) to[out=-60,in=180] (7.5,0)
-%    to[out=0,in=-120]
-%    node[below right=0pt,inner sep=0,pos=0,text depth=0pt]
-%    {ratify $\confirm{a}$}
-%    (C.-120);
 \draw[transition] (N) to[out=90,in=180,looseness=.9]
      node[above,align=center] {$a$是有效的} (P);
 \draw[transition] (N) to[out=-90,in=180,looseness=.9] (nP);

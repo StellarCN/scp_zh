@@ -67,39 +67,38 @@ each node \\[-.5ex] \bottomrule
   \label{fig:nomstate}
 \end{figure}
 
-%\begin{figure}
-%{\centering\abovedisplayskip4pt
-%\belowdisplayskip4pt
-%\begin{tikzpicture}
-%  \node[draw=few-\maincolor-bright,thick,
-%    text width=\textwidth-24pt, align=justify,
-%    outer sep=0pt,
-%    inner xsep=12pt, inner ysep=-6pt]
-%       {
-%  \begin{description}[style=nextline,leftmargin=2ex]
-%  \item[\mdseries $\textsc{nominate}~v~i~X~Y~D$]
-%%
-%    This is a message from node $v$ nominating values for slot~$i$.
-%    $D$ is $v$'s quorum slice $\Q v$ or a collision-resistant hash of
-%    $\Q v$.  $X$ and $Y$ are from $v$'s state.  The concrete message
-%    encodes the following conceptual messages:
-%%
-%{%\parskip=0pt
-%\begin{itemize}[topsep=4pt,itemsep=4pt]
-%  \item $\{\, \emph{nominate}~x \mid x\in X\,\}$
-%    \hfill (votes to nominate each value in $X$)
-%  \item $\{\, \confirm{\emph{nominate}~x} \mid x\in Y\,\}$
+\begin{figure}
+{\centering\abovedisplayskip4pt
+\belowdisplayskip4pt
+\begin{tikzpicture}
+  \node[draw=few-\maincolor-bright,thick,
+    text width=\textwidth-24pt, align=justify,
+    outer sep=0pt,
+    inner xsep=12pt, inner ysep=-6pt]
+       {
+  \begin{description}[style=nextline,leftmargin=2ex]
+  \item[\mdseries \textit{提名}~$v~i~X~Y~D$]
+%
+这是一个从节点$v$为{\slot}~$i$提名值的消息。$D$是$v$的{\quorum}切片$\mybm{Q}(v)$或是$\mybm{Q}(v)$的无碰撞冲突的哈希。$X$和$Y$来自$v$的状态。这些具体的消息编码了下面抽象的消息:
+%
+{%\parskip=0pt
+\begin{itemize}[topsep=4pt,itemsep=4pt]
+  \item $\{\, \emph{nominate}~x \mid x\in X\,\}$
+    \hfill (投票赞成$X$中的每个值)
+  \item $\{\, \confirm{\emph{nominate}~x} \mid x\in Y\,\}$
 %    \hfill (votes to confirm nominations in $Y$)
-%\end{itemize}}
-%\medskip
-%\end{description}};
-%\end{tikzpicture}}
-%\caption{Message in nomination protocol}
-%\label{fig:nommsg}
-%\end{figure}
+\end{itemize}
+}
+\medskip
+\end{description}
+};
+\end{tikzpicture}}
+\caption{提名协议中的消息}
+\label{fig:nommsg}
+\end{figure}
 
 {图\ref{fig:nomstate}}列出了一个节点$v$必须为每个{\slot}维护的提名协议状态。$X$是$v$已投票赞成$nominate\;x$的值$x$的集合，$Y$是$v$已接受$nominate\;x$的值集合，$Z$是候选值集合——即含$v${\quorum}已经声明$accept(nominate\;x)$的所有值。最后，$v$维护$N$——来自每个节点的最新值。(技术上来讲，$X$，$Y$和$Z$可以从$N$的值中重新算出来，但能直接引用它们的值是方便的。)所有的这些域最初都被初始化为空集。注意到$X$，$Y$和$Z$都总随时间的推移而增长——节点不会从这些集合中删除元素。
 
-\todo{图15}说明了一个包含提名协议的具体消息。由于$X$和$Y$随时间单调递增，决定在不考虑网络发送顺序的情况下来自相同节点的多个\textsl{NOMINATE}消息哪个是最新的是可能的--只要$D$不改变中间提名(mid-nomination；否则必须记录$D$的版本信息)。只有一个远程过程调用(RPC)对提名来说是必要的——参数是发送者的最新\textsl{NOMINATE}消息而返回值是接受者的(最新\textsl{NOMINATE}消息{\todo{可能是accept消息，不确定}})。如果$D$或被提名值是加密哈希值，必要时第二个RPC应当允许获取没有缓存的哈希原像。
+{图\ref{fig:nommsg}}说明了一个包含提名协议的具体消息。由于$X$和$Y$随时间单调递增，决定在不考虑网络发送顺序的情况下来自相同节点的多个\textsl{NOMINATE}消息哪个是最新的是可能的--只要$D$不改变中间提名(mid-nomination；否则必须记录$D$的版本信息)。只有一个远程过程调用(RPC)对提名来说是必要的——参数是发送者的最新\textsl{NOMINATE}消息而返回值是接受者的(最新\textsl{NOMINATE}消息{\todo{可能是accept消息，不确定}})。如果$D$或被提名值是加密哈希值，必要时第二个RPC应当允许获取没有缓存的哈希原像。
 
 由于节点无法通过任何手段知道提名协议何时完成，$SCP$必须在不同的节点处处理不同的合成值。则有这样一种优化，节点可在它们有候选值之前尝试预测最终的合成值。为此，合成值可以在$Z\neq \emptyset$时设为$combine(Z)$，否则在$Y\neq \emptyset$时设为$combine(Z)$，否则在$X\neq \emptyset$时设为$combine(X)$。这意味着高优先级节点可以在提名的同时初始化表决，在它的第一个\textsl{NOMINATE}消息上加上第一个表决消息\textsl{PREPARE}(表述参见下文)。
