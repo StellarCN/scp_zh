@@ -1,5 +1,54 @@
 \subsection{例子和讨论}\label{sec:fba_eg_disscuss}
-\todo{图3}展示了一个层状系统，系统中的不同节点有着截然不同的切片集合，这可能只有在FBA才能实现。顶层由$v_1,\ldots,v_4$组成，其结构类似于PBFT中$f=1$的情形，这意味着只要其它三个节点可达并正常工作，该系统就可以容忍一个拜占庭错误。节点$v_5,\ldots,v_8$组成中间层不相互依赖，而是依赖于顶层。中间层节点只需要两个顶层节点就可以形成切片。(假定顶层只有最多一个拜占庭错误，那么除非整个系统出错否则两个顶层节点不会同时出现错误。)节点$v_9$和$v_{10}$在叶子层，其切片由任意两个中间层节点组成。注意这里$v_9$和$v_{10}$可能选择不相交的切片集合，例如$\left\{v_5,v_6\right\}$和$\left\{v_7,v_8\right\}$；然而，两者都会间接依赖于顶层节点。
+
+\begin{figure}
+\centering
+\begin{tikzpicture}[thick,
+  %box/.style={ultra thick,draw=gray,rounded corners, inner sep=.4cm},
+%  box/.style={ultra thick,rounded corners,inner
+%    sep=.3cm, fewshade=\maincolor!30!white},
+  node/.append style={minimum width=4.5ex, inner sep=0},
+  ]
+\node[node] (v1) {$v_1$};
+\node[node, right=.4cm of v1] (v2) {$v_2$};
+\node[node, right=.4cm of v2] (v3) {$v_3$};
+\node[node, right=.4cm of v3] (v4) {$v_4$};
+\begin{scope}[on background layer]
+\node[box,fit=(v1) (v4)] (bft) {};
+\end{scope}
+\node[anchor=west,text width=5cm,font={\small},outer sep=2mm] at (bft.0)
+%
+     {顶层:  切片是包含自身的$\{v_1,v_2,v_3,v_4\}$的三元子集};
+%
+\node[node, below=1cm of $(v1|-bft.south)$] (v5) {$v_5$};
+\node[node, right=.4cm of v5] (v6) {$v_6$};
+\node[node, right=.4cm of v6] (v7) {$v_7$};
+\node[node, right=.4cm of v7] (v8) {$v_8$};
+\begin{scope}[on background layer]
+\node[box,fit=(v5) (v8)] (bftdep) {};
+\end{scope}
+\node[anchor=west, text width=5cm, font=\small,outer sep=2mm]
+  at (bftdep.east) {
+  中间层: 切片是自身+任意2个顶层节点};
+\node[node, below=1cm of $(v6|-bftdep.south)$] (v9) {$v_9$};
+\node[node, right=.4cm of v9] (v10) {$v_{10}$};
+\begin{scope}[on background layer]
+\node[box,fit=(v9) (v10)] (bftdepdep) {};
+\end{scope}
+\node[anchor=west,text width=5cm, font=\small, outer sep=2mm] at
+(bftdepdep.east-|bftdep.east)
+     {叶子层: 切片是自身 + 任意2个中间层节点};
+\draw[transition] (bftdepdep) --
+  node[right,pos=.45,anchor=west] {\footnotesize 2/4} (bftdep);
+\draw[transition] (bftdep) --
+  node[right,pos=.45,anchor=west] {\footnotesize 2/4} (bft);
+\draw[transition] (bft) to[loop above,looseness=5]
+  node[pos=.8,right,anchor=west] {\footnotesize 3/4} (bft);
+\end{tikzpicture}\\
+\caption{层状{\quorum}结构举例}
+\label{fig:hierarchy}
+\end{figure}
+
+图\ref{fig:hierarchy}展示了一个层状系统，系统中的不同节点有着截然不同的切片集合，这可能只有在FBA才能实现。顶层由$v_1,\ldots,v_4$组成，其结构类似于PBFT中$f=1$的情形，这意味着只要其它三个节点可达并正常工作，该系统就可以容忍一个拜占庭错误。节点$v_5,\ldots,v_8$组成中间层不相互依赖，而是依赖于顶层。中间层节点只需要两个顶层节点就可以形成切片。(假定顶层只有最多一个拜占庭错误，那么除非整个系统出错否则两个顶层节点不会同时出现错误。)节点$v_9$和$v_{10}$在叶子层，其切片由任意两个中间层节点组成。注意这里$v_9$和$v_{10}$可能选择不相交的切片集合，例如$\left\{v_5,v_6\right\}$和$\left\{v_7,v_8\right\}$；然而，两者都会间接依赖于顶层节点。
 
 实际情形中，顶层可能包含来自各处的四到几十个广为人知并可信的金融机构。当顶层的大小增长时，可能不再有关于它的成员关系的准确一致性，但是大多数团体对顶层节点的意识将会重叠。另外，还可以想象很多的中间层，例如每个代表一个国家或者地理区域。
 
@@ -7,4 +56,25 @@
 
 如果我们把{\quorum}切片看成类似网络可达性，而把{\quorum}看成是传递可达性，那么网络近乎完全的传递可达性启示我们同样也可以利用FBA达成世界范围内的共识。在很多方面，共识比网际间的路由选择要容易得多。传输消耗资源且花费资金，但包含切片的过程仅仅要求检查数字签名。因此，FBA节点可以在包含切片的那端报告错误，相比较常见的在对等直连和传输约定场景见到的那样，这可以用更为相互依赖且冗余的方式来建立保守的切片。
 
-另外，正如\todo{图4}中展示的那样，中心化共识对有环依赖结构也无能为力。这样一个环状结构不会被有意生成出来，然而当独立的节点选择它们自己的切片时，这可能导致整个网络最终被植入了环状依赖。更大的问题是，相比较传统的拜占庭协商来说，一个FBA的协议必须解决远为多样的{\quorum}结构。
+
+\begin{figure}
+\centering
+\begin{tikzpicture}[thick]
+\foreach \v in {1,2,...,6} {
+  \path let \n1={int(150-\v*60)} in
+  (\n1:1.75) node[circle,fewshade=\maincolor] (v\v) {$v_{\v}$}
+  % edge[in=\n1-15,out=\n1+15,loop] ()
+  ;
+}
+\foreach \x in {1,2,...,6} {
+  \pgfmathparse{int(mod(\x,6)+1)}\edef\xx{\pgfmathresult}
+  \draw[->,shorten >=.2pt,very thick,few-gray] (v\x) to[bend left=22] (v\xx);
+}
+\node[right={1em of $(v2.east)!.5!(v3.east)$}]
+     {\small $\Q{v_i}=\left\{\{v_i,v_{(i\bmod6)+1}\}\right\}$};
+\end{tikzpicture}\\
+\caption{环形{\quorum}结构举例}
+\label{fig:cycle}
+\end{figure}
+
+另外，正如图\ref{fig:cycle}中展示的那样，中心化共识对有环依赖结构也无能为力。这样一个环状结构不会被有意生成出来，然而当独立的节点选择它们自己的切片时，这可能导致整个网络最终被植入了环状依赖。更大的问题是，相比较传统的拜占庭协商来说，一个FBA的协议必须解决远为多样的{\quorum}结构。

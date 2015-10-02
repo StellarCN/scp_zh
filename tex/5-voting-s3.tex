@@ -1,6 +1,32 @@
 \subsection{接受陈述}
 
-当一个完好节点$v$意识到它已经批准了一个陈述之后，定理\ref{thm:intact_cannot_ratify_contracdictory}告诉$v$其它完好节点不会批准与之相冲突的陈述。这是让$v$接受$a$的充分条件，但我们不能让它也是必要的。批准一个陈述要求给它投票，而一些节点可能已经赞成了和$a$相冲突的陈述。例如在\todo{图9}中，$v_4$在意识到其它几个节点赞成$a$之前投票赞成了$\bar a$。尽管$v_4$不能够赞成$a$，我们仍然希望它接受$a$以和其它节点相一致。
+\begin{figure}
+\centering
+\begin{tikzpicture}[thick,
+    node/.append style={align=center,inner sep=1pt},
+  ]
+\node[node] (v1) {$v_1$ \\ 赞成~$a$ \\ 接受};
+\node[node, right=.4cm of v1] (v2) {$v_2$ \\ 赞成~$a$ \\ 接受};
+%\node[node, right=.4cm of v2] (v3) {\phantom{$v_3$} \\ \phantom{vote~$a$} \\ \phantom{accept}};
+\node[node, right=.4cm of v2] (v3) {$v_3$ \\ 赞成~$a$ \\ 接受};
+\node[node, right=.4cm of v3] (v4) {$v_4$ \\ 赞成~$\na$ \\ \phantom{接受}};
+%\node[draw=few-\maincolor-bright,line cap=round,line width=1ex,
+%  opacity=.9,fit={(v3)},
+%  cross out,inner sep=-2mm] {};
+\begin{scope}[on background layer]
+\node[box,fit=(v1) (v4)] (bft) {};
+\end{scope}
+\draw[transition] (bft) to[loop above,looseness=5]
+  node[pos=.8,right,anchor=west] {\footnotesize 3/4} (bft);
+%
+\node[anchor=base east, font={\small},align=left]
+at ([yshift=4pt] bft.north east) {切片是包含自身的\\~3个节点};
+\end{tikzpicture}\\
+\caption{$v_4$ 投票赞成 $\na$, 而它和已被批准的陈述$a$矛盾。}
+\label{fig:wrongvote}
+\end{figure}
+
+当一个完好节点$v$意识到它已经批准了一个陈述之后，定理\ref{thm:intact_cannot_ratify_contracdictory}告诉$v$其它完好节点不会批准与之相冲突的陈述。这是让$v$接受$a$的充分条件，但我们不能让它也是必要的。批准一个陈述要求给它投票，而一些节点可能已经赞成了和$a$相冲突的陈述。例如在图\ref{fig:wrongvote}中，$v_4$在意识到其它几个节点赞成$a$之前投票赞成了$\bar a$。尽管$v_4$不能够赞成$a$，我们仍然希望它接受$a$以和其它节点相一致。
 
 一个关键的认识是，如果一个节点$v$是完好的，那么不存在一个完全包含被污染节点的{\vblock}集$B$。现在假定$B$是一个{\vblock}集而$B$中每个成员都要求接受陈述$a$。如果$v$是完好的，$B$中至少有一个元素也是完好的。完好节点不会对接受陈述$a$撒谎；因此，$a$为真并且$v$能够接受它。当然，如果$v$是被污染的，那么$a$就可能不是真的。但是一个被污染的节点可能会接受任何陈述而显然不影响完好节点的安全性。
 

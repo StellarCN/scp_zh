@@ -1,6 +1,6 @@
 \subsection{安全性和存活性}\label{sec:fba-safe-live}
 
-我们把节点分为\textit{良性行为的}和\textit{恶性行为的}。一个良性行为的节点选择可感知的{\quorum}切片(将在第\ref{sec:resilience}节深入讨论)并且遵守规则，这包括最终回应所有的请求。一个恶性行为的节点不是这样。恶性行为的节点受拜占庭错误的影响，这意味着它们可能会有随意的行为。例如，一个恶性节点可能会被入侵而它的所有者可能恶意地修改软件，或者它可能已经崩溃。
+我们把节点分为\textit{良性行为的}和\textit{恶性行为的}。一个良性行为的节点选择可感知的{\quorum}切片(将在第~\ref{sec:resilience}~节深入讨论)并且遵守规则，这包括最终回应所有的请求。一个恶性行为的节点不是这样。恶性行为的节点受拜占庭错误的影响，这意味着它们可能会有随意的行为。例如，一个恶性节点可能会被入侵而它的所有者可能恶意地修改软件，或者它可能已经崩溃。
 
 拜占庭协商的目标是要确保良性行为的节点要在恶性行为节点存在的情形下对外界表现出相同的值。这个目标包含两个方面。首先，我们希望防止节点分叉并对同一{\slot}向外界显示不同的值。其次，我们需要确保节点的确会得到值，而不是在某个死的状态下阻塞，这种情形下的共识变得不再可能。我们为这些属性引入下面两个术语：
 
@@ -14,7 +14,40 @@
 
 我们称这些既有安全性又有存活性节点是\textit{正确的}。不正确的节点被称为{\textit{有错误的}}。一个恶性行为的节点是有错误的，然而一个良性行为的节点也可能是有错误的——它可能无限等待某恶性行为节点的消息，或者更为严重的是它的状态被恶性行为节点用错误的信息给破坏了。
 
-\todo{图5}强调了这样一种可能的节点错误。左边是拜占庭错误——恶性行为的节点。右边是两类良性行为的、但有错误的节点。不具有存活性的节点被标成了\textit{阻塞的}，而那些不具有安全性的节点被标成了\textit{分叉的}。破坏安全性的攻击严格地比破坏存活性的攻击更为强大。因此我们把分叉节点归为阻塞节点的子集。
+
+\begin{figure}
+\centering
+\begin{tikzpicture}[thick,font=\small,draw=few-gray,node
+    distance=2pt]
+  \node[draw,fill=few-\maincolor-light,rectangle,anchor=south west,
+        minimum height=2cm,minimum width=2cm, outer
+        xsep=0pt,label=恶性行为的, align=center]
+    at (0,0) (ill) {拜占庭失败的\\(含崩溃节点) };
+  \node[draw,anchor=south west, outer xsep=0pt, label={良性行为的},
+    minimum height=2cm,minimum width=8cm]
+    at (ill.south east) (well) {};
+  \node[draw,fill=few-\maincolor-light,ellipse,anchor=west,inner
+    sep=3pt]
+    at ([xshift=.2cm] well.west) (stuck)
+    {被阻塞的\hspace{.5cm}\tikz[baseline=(d.base),draw=few-gray]
+      \node[inner sep=4pt, thick, ellipse, draw,fill=few-\maincolor-light]
+      (d) {分叉的};};
+  \node[anchor=base west] at ([xshift=.1cm] stuck.base east) {正确的};
+
+  \node[draw,fill=few-\maincolor-light,label=right:失败的]
+  at ([xshift=.4cm,yshift=-.3cm] well.north east) (failkey) {};
+  \node[draw,label=right:正确的, below=.25cm of failkey] {};
+%  \node[below=of $(ill.south west)!.5!(well.south east)$] {
+%    \tikz \node[draw=few-gray,thick,fill=few-\maincolor-light] {};~failed
+%    \qquad
+%    \tikz \node[draw=few-gray,thick] {};~correct
+%  };
+\end{tikzpicture}
+\caption{节点失败情形的维恩图}
+\label{fig:failed}
+\end{figure}
+
+图\ref{fig:failed}强调了这样一种可能的节点错误。左边是拜占庭错误——恶性行为的节点。右边是两类良性行为的、但有错误的节点。不具有存活性的节点被标成了\textit{阻塞的}，而那些不具有安全性的节点被标成了\textit{分叉的}。破坏安全性的攻击严格地比破坏存活性的攻击更为强大。因此我们把分叉节点归为阻塞节点的子集。
 
 我们对\textit{存活性}的定义是比较弱的，这是因为它承认\textit{持久性优先抢占}，在这样一种状态下总是可能达成共识，但是网络持续地用错误的方式延迟或调整重要信息的顺序来阻碍共识的形成。持久性优先抢占在一个纯异步、确定的、并能够免受节点错误干扰的系统里面是不可避免的~\cite{Fischer:1985:IDC:3149.214121}。幸运的是，抢占是暂时的。它并不意味着节点错误，因为系统可能会在任何时刻恢复。协议可以通过随机性(接入节点总是选择随机性的候选值直到有足够多节点正好选择了同一个节点~\cite{Ben-Or:1983:AFC:800221.806707,Bracha:1985:ACB:4221.214134})或对消息延迟的现实情况下的假设~\cite{Dwork:1988:CPP:42282.42283}来缓解这个问题。当希望限制执行时间时后一类协议更为实用。当然，结束性要求(termination)而不是安全性要求依赖于消息超时设置。
 

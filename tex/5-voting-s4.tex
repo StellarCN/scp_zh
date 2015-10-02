@@ -9,9 +9,72 @@
 \subsubsection{存活性}\label{sec:accept_not_enough_liveness}
 另一个被接受陈述的局限性是，其它的完好节点可能不会接受它们。对存活性来说，这种可能性使得依赖于被接受的陈述是有问题的。如果一个节点由于它接受了一个陈述而作用于该陈述上，其它的节点可能无法以类似的方式处理该陈述。
 
-考虑\todo{图10a}的情形，其中$v_3$在帮助批准$v_1$并接受陈述$a$之后崩溃了。尽管$v_1$接受了$a$，$v_2$和$v_4$却不能。特别地，在$v_2$看来，所描述的情景和\todo{图10b}是一样的，后者$v_3$赞成$\bar a$且是良性行为的但回复较慢，而$v_1$是恶性行为的并在向$v_3$发送对$\bar a$的赞成票(因此导致$v_3$接受$\bar a$)的同时又向$v_2$发送对$a$的赞成票。
+\begin{figure}
+\centering
+\begin{tikzpicture}[thick,
+    %node/.style={fewshade=\maincolor,circle,align=center,inner sep=0mm}
+    node/.append style={align=center,inner sep=1pt},
+  ]
+\node[node] (v1) at (0,0)
+     { $v_1$
+       \\ 赞成 $a$ \\     接受 };
+\node[node,right=.4cm of v1] (v2)
+     { $v_2$ \\ 赞成 $a$ \\ \phantom{接受}};
+\node[node,right=.4cm of v2] (v3)
+     { \phantom{$v_3$} \\ \phantom{赞成 $a$} \\ \phantom{接受}};
+\node[node,right=.4cm of v3] (v4)
+     { $v_4$ \\ 赞成 $\na$ \\ \phantom{接受}};
+\node[draw=few-\maincolor-bright,line cap=round,line width=1ex,
+  opacity=.9,fit={(v3)},
+  cross out,inner sep=-2mm] {};
+\node[node,fill=none] at (v3) { $v_3$ \\ \textbf{赞成 $\bm{a}$} \\ };
+\begin{scope}[on background layer]
+\node[box,fit=(v1) (v4)] (bft) {};
+\end{scope}
+\draw[transition] (bft) to[loop above,looseness=5]
+  node[pos=.8,right,anchor=west] {\footnotesize 3/4} (bft);
+\node[anchor=base east, font={\small},align=left]
+at ([yshift=4pt] bft.north east) {切片是包含自身的\\~3个节点};
+%\node[overlay,right=4mm of v2, text width=18ex,font=\small]
+%{ $\forall v\in\{v_1,\ldots,v_4\}$,
+%  $\Q v$ is all sets of 3 nodes containing $v$.};
+\node[anchor=south east,overlay] at ([xshift=-1ex] bft.south west) {a)};
+\end{tikzpicture}\smallskip\\
+\begin{tikzpicture}[thick,
+    %node/.style={fewshade=\maincolor,circle,align=center,inner sep=0mm}
+    node/.append style={align=center,inner sep=1pt},
+  ]
+\node[node] (v1) at (0,0)
+     { \phantom{$v_1$}
+       \\ \phantom{赞成 $a$} \\
+       \phantom{接受} };
+\node[node,right=.4cm of v1] (v2)
+     { $v_2$ \\ 赞成 $a$ \\ \phantom{接受}};
+\node[node,right=.4cm of v2] (v3)
+     { $v_3$ \\ \textbf{赞成 $\bm{\na}$} \\ \textbf{接受} };
+     %\setbox0=\hbox{accept}\hbox to\wd0{\hss \hss} };
+\node[node,right=.4cm of v3] (v4)
+     { $v_4$ \\ 赞成 $\na$ \\ \phantom{接受}};
+\node[draw=few-\maincolor-bright,line cap=round,line width=1ex,
+  opacity=.9,fit={(v1)},
+  cross out,inner sep=-2mm] {};
+\node[node,fill=none] at (v1) { $v_1$ \\ 赞成 $a$ \\ \textbf{赞成
+    $\bm{\na}$}};
+\begin{scope}[on background layer]
+\node[box,fit=(v1) (v4)] (bft) {};
+\end{scope}
+\draw[transition] (bft) to[loop above,looseness=5]
+  node[pos=.8,right,anchor=west] {\footnotesize 3/4} (bft);
+\node[anchor=south east,overlay] at ([xshift=-1ex] bft.south west) {b)};
+\end{tikzpicture}
 
-为了支持像\todo{图10a}中协议层次的存活性概念，$v_1$需要一种方式来确保每个其它的完好节点最终能够在作用于$a$之前接受$a$。一旦是这种情形，则说系统在$a$上达成了一致就合情合理了。
+\caption{$v_2$ 当$v_2$没有看到加粗消息时$v_2$无法区分的两种情形}
+\label{fig:unresolvable}
+\end{figure}
+
+考虑图\ref{fig:unresolvable}a的情形，其中$v_3$在帮助批准$v_1$并接受陈述$a$之后崩溃了。尽管$v_1$接受了$a$，$v_2$和$v_4$却不能。特别地，在$v_2$看来，所描述的情景和图\ref{fig:unresolvable}b是一样的，后者$v_3$赞成$\bar a$且是良性行为的但回复较慢，而$v_1$是恶性行为的并在向$v_3$发送对$\bar a$的赞成票(因此导致$v_3$接受$\bar a$)的同时又向$v_2$发送对$a$的赞成票。
+
+为了支持像{图\ref{fig:unresolvable}a}中协议层次的存活性概念，$v_1$需要一种方式来确保每个其它的完好节点最终能够在作用于$a$之前接受$a$。一旦是这种情形，则说系统在$a$上达成了一致就合情合理了。
 
 \begin{definition}[认可]\label{def:agree}
 	一个FBAS $\langle\mybm{V},\mybm{Q}\rangle$\textbf{认可}陈述$a$当且仅当无论接着会发生什么，一旦足够多的消息被发送且处理了，每个完好节点将接受$a$。

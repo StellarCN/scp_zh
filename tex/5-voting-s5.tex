@@ -36,4 +36,61 @@
 	由定理\ref{thm:quorum_subset_is_quorum}，$U_a\backslash B$是$\langle\mybm{V},\mybm{Q}\rangle^{B}$中的一个{\quorum}。由于对于任何$v\in V^-$来说$V^+$都不是{\vblock}的，那么由定理\ref{thm:quorum_availability_vs_vblocking} 要么$V^-=\emptyset$要么$V^-$是$\langle\mybm{V},\mybm{Q}\rangle^{B}$中的一个{\quorum}。后一种情形导致这样一个矛盾：由于$V^-$只包含完好的(因此也是良性行为的)节点，它们当中的没有能够在首先真正接受$a$的情况下声明$accept(a)$，这意味着$U_a\backslash B\cap V^-=\emptyset$。然而这是不可能的，因为除$B$(一个$DSet$){\quorum}可交性告诉我们它的反面：$U_a\backslash B\cap V^-\neq\emptyset$。剩下只可能是$V^-=\emptyset$。一旦每个节点都接受了$a$，所有的都会投票赞成确认$a$。因为完好节点构成了一个{\quorum}，这些投票将会成功。
 \end{proof}
 
-\todo{图11}总结了一个完好节点为了确认$a$可以采用的路径。在不知情的状态下，$v$可能会赞成$a$或者与之冲突的$\bar a$。如果$v$投票赞成$\bar a$，它之后不会再赞成$a$；但是如果一个{\vblock}集合接受了$a$那么$v$却可以接受$a$。接下来确认消息的{\quorum}允许$v$去确认$a$，由定理\ref{thm:confirmed_stats_keep_liveness}这意味着系统认可$a$。
+
+\begin{figure}
+\centering
+\begin{tikzpicture}[thick,
+    node/.style={draw,ellipse,inner xsep=-1.5mm,align=center,text
+      width=2.2cm,
+      inner ysep=0pt,
+      text depth=1ex,text height=1em,fewshade=\maincolor},
+    transition/.style={->,very thick, align=center,shorten
+      >=0pt,shorten <=-3pt,font=\small\openup-.5\jot,draw=few-gray},
+  ]
+\node[node] (N) at (0,0) {未提交};
+\node[node] (P) at (3,1) {已赞成~$a$};
+\node[node] (A) at (6,1) {已接受~$a$};
+\node[node] (C) at (9,1) {已确认~$a$};
+\node[node] (nP) at (3,-1) {已赞成~$\na$};
+\begin{scope}[on background layer]
+%\draw[transition] (P.60) to[out=60,in=180]
+%    (4.5,2) -- 
+%    (7.5,2)
+%    to[out=0,in=120]
+%    node[above,text depth=.5pt,pos=0] {have signed\\ evidence}
+%    (C.120);
+\draw[transition] (P.60) to[out=60,in=180]
+    (4.5,2) 
+    to[out=0,in=120,pos=0]
+    node[above,text depth=.5pt,align=left] {\quorum
+      赞成\\或接受$a$}
+    (A.120);
+%\draw[transition] (A.60) to[out=60,in=180]
+%    node[above,pos=1,text depth=0pt] {ratify $\confirm a$} (7.5,2)
+%    to[out=0,in=120] (C.120);
+\draw[transition] (A.60) to[out=60,in=180]
+    (7.5,2) to[out=0,in=120]
+    node[above,pos=.01,text depth=0pt,align=left]
+    {\quorum 确认 $a$}  (C.120);
+%\draw[transition] (A.-60) to[out=-60,in=180] (7.5,0)
+%    to[out=0,in=-120]
+%    node[below right=0pt,inner sep=0,pos=0,text depth=0pt]
+%    {ratify $\confirm{a}$}
+%    (C.-120);
+\draw[transition] (N) to[out=90,in=180,looseness=.9]
+     node[above,align=center] {$a$是有效的} (P);
+\draw[transition] (N) to[out=-90,in=180,looseness=.9] (nP);
+\draw[transition,-] (P.-60) to[out=-60,in=180] (4.5,0);
+\draw[transition] 
+       (nP.60) to[out=60,in=180] (4.5,0)
+       to[out=0,in=-120]
+       node[below right,inner sep=0,pos=.1,align=left]
+            {{\vblock}集\\[1pt] 接受 $a$}
+       (A.-120);
+\end{scope}
+\end{tikzpicture}
+\caption{一个被接受的陈述$a$在节点$v$处可能的状态}
+\label{fig:node-states}
+\end{figure}
+
+{图\ref{fig:node-states}}总结了一个完好节点为了确认$a$可以采用的路径。在不知情的状态下，$v$可能会赞成$a$或者与之冲突的$\bar a$。如果$v$投票赞成$\bar a$，它之后不会再赞成$a$；但是如果一个{\vblock}集合接受了$a$那么$v$却可以接受$a$。接下来确认消息的{\quorum}允许$v$去确认$a$，由定理\ref{thm:confirmed_stats_keep_liveness}这意味着系统认可$a$。

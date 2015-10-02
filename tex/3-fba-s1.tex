@@ -10,7 +10,29 @@
 	FBAS$\langle\mybm{V},\mybm{Q}\rangle$中的节点集合$U\subseteq\mybm{V}$是一个\textbf{\quorum}当且仅当$U\neq \emptyset$且$U$包含每个节点的一个切片——即，$\forall v\in U, \exists q \in \mybm{Q}(v), s.t. q\subseteq U$。
 \end{definition}
 
-{\quorum}是足够达成一致的节点集合。切片是说服某一特定节点认可的{\quorum}子集。一个{\quorum}切片可能小于{\quorum}。考虑\todo{图2}中的四节点系统，每个节点包含单一切片而箭头指向切片中的其它成员。节点$v_1$的切片$\left\{v_1,v_2,v_3\right\}$足以说服$v_1$认可。但是$v_2$和$v_3$的切片包含$v_4$，这意味着$v_2$和$v_3$都不能在没有$v_4$同意的情况下断言某个陈述。因而，没有$v_4$的参与就不可能达成一致，而唯一的包含$v_1$的{\quorum}是所有节点的集合$\left\{v_1,v_2,v_3,v_4\right\}$。
+\begin{figure}
+\centering
+\begin{tikzpicture}
+\tikzset{scale=1.5}
+\node[node] (v1) {$v_1$};
+\node[node] (v2) at (-1,1) {$v_2$};
+\node[node] (v3) at (1,1) {$v_3$};
+\node[node] (v4) at (0,2) {$v_4$};
+\draw[transition] (v1) -- (v2);
+\draw[transition] (v1) -- (v3);
+\draw[transition,<->] (v2) -- (v3);
+\draw[transition,<->] (v2) -- (v4);
+\draw[transition,<->] (v3) -- (v4);
+\node[anchor=west, text width=4cm, font=\small,overlay] at (1.5,1) {
+  $\Q{v_1}=\{\{v_1, v_2, v_3\}\}$ \\[1ex]
+  $\Q{v_2}=\Q{v_3}=\Q{v_4}=\{\{v_2, v_3, v_4\}\}$
+};
+\end{tikzpicture}\\
+\caption{不含$v_4$的$v_1$的{\quorum}切片不是一个{\quorum}}
+\label{fig:slice-vs-quorum}
+\end{figure}
+
+{\quorum}是足够达成一致的节点集合。切片是说服某一特定节点认可的{\quorum}子集。一个{\quorum}切片可能小于{\quorum}。考虑图\ref{fig:slice-vs-quorum}中的四节点系统，每个节点包含单一切片而箭头指向切片中的其它成员。节点$v_1$的切片$\left\{v_1,v_2,v_3\right\}$足以说服$v_1$认可。但是$v_2$和$v_3$的切片包含$v_4$，这意味着$v_2$和$v_3$都不能在没有$v_4$同意的情况下断言某个陈述。因而，没有$v_4$的参与就不可能达成一致，而唯一的包含$v_1$的{\quorum}是所有节点的集合$\left\{v_1,v_2,v_3,v_4\right\}$。
 
 传统非联邦共识要求所有的节点接受相同的切片，即$\forall v_1, v_2, \mybm{Q}(v_1)=\mybm{Q}(v_2)$。因为任意的切片都足够使得所有的节点相信所有节点的某一个陈述，中心化系统不加区分切片和{\quorum}。缺点在于成员关系和{\quorum}必须事先规定好，妨碍了开放式成员关系和去中心化控制。传统的系统，例如PBFT~\cite{Castro:1999:PBFT}，通常有$3f+1$个节点，它们中的任意$2f+1$个节点组成一个{\quorum}。这里$f$是拜占庭错误的最大值——意味着节点的随意行为都能保证系统能够存活。
 

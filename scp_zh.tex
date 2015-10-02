@@ -1,5 +1,27 @@
-\documentclass[a4paper,onecolumn,12pt]{article}
+\documentclass[onecolumn,11pt]{article}
 %\documentclass[prodmode,acmtocs]{acmsmall}
+
+\usepackage{tikz}
+\usetikzlibrary{calc,positioning,fit,shapes,shapes.misc,%
+  shadows,shadows.blur,backgrounds,chains}
+
+\tikzset{
+    myshadow/.style={drop shadow={shadow xshift=.1ex, shadow
+            yshift=-.1ex, shadow scale=1.03}},
+    myshade/.style={draw=none, line width=0, %draw=#1!50, %myshadow,
+        %top color=white!70!#1, bottom color=#1, shading angle=30},
+        fill=white!30!#1},
+    fewshade/.style={myshade=few-#1},
+    myboxshade/.style={line width=0, draw=none, %draw=#1!50,
+        %top color=white!70!#1, bottom color=#1, shading angle=30,
+        %drop shadow={shadow xshift=0.58mm, shadow yshift=-.58mm},
+        fill=white!30!#1
+    },
+    node/.style={draw,circle,fewshade=\maincolor},
+    transition/.style={->,very thick,shorten >=0pt,few-gray},
+    box/.style={rounded corners,inner sep=.2cm,
+      myboxshade=few-\maincolor!30!white,draw=few-\maincolor-bright},
+}  
 
 \usepackage{graphicx}
 \usepackage{amsmath, amsfonts, amssymb}
@@ -82,11 +104,20 @@
 \newcommand{\slot}{存储单元}
 \newcommand{\vblock}{$v-\!\!$阻塞}
 
+\newcommand{\V}{\mathbf V}
+\newcommand{\Q}[1]{\mathbf Q(#1)}
+\newcommand{\VQ}{\ifmmode\langle\V,\mathbf Q\rangle\else
+  $\langle\V,\mathbf Q\rangle$\fi\xspace}
+\newcommand{\Qb}{\mathbf{Q}^B}
+\newcommand{\VQb}{$\langle\V,\mathbf Q\rangle^B$\xspace}
+\newcommand{\VQbn}[1]{$\langle\V,\mathbf{Q}\rangle^{B_{#1}}$\xspace}
+
 \renewcommand{\figurename}{图}
 \renewcommand\refname{参考文献}
 \renewcommand{\abstractname}{摘\hspace{2em}要}
 
 \newcommand{\FBA}{SCP\@\xspace}
+\newcommand{\na}{\ensuremath{\bar a}}
 
 \title{恒星共识协议：互联网级共识的联邦模型}
 \author{David Mazi{\`e}res\\恒星发展基金会}
