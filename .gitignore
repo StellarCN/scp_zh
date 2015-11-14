@@ -42,3 +42,4 @@ auto/
 /.texpadtmp/
 
 /scp/
+*.swp
