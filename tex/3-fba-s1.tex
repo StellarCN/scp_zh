@@ -3,7 +3,7 @@
 在一个共识协议中，节点交换消息来对关于{\slot}的陈述进行断言。我们假设这些断言无法被伪造——如果节点通过公钥命名并且数字签名了这些消息那么这是可以保证的。当一个节点侦听到足够多的节点断言了某个陈述之后，它将假定不会有工作节点否定这一陈述。我们称这样的一个足够的集合为\textbf{{\quorum}切片}，或简称\textbf{切片}。为了允许在节点失败的情形下系统仍然能够推进，一个节点可能有多个切片，它的任意一个切片都足够让它相信某个陈述。从较高层次来看，一个FBA系统由松散的节点邦联组成，其中的每个节点包含一个或多个切片。更形式化地讲：
 
 \begin{definition}[FBAS]
-	一个联邦拜占庭协商系统，或简称\textit{FBAS}，是一个二元组$\langle\mybm{V}, \mybm{Q}\rangle$，它包含节点集合$\mybm{V}$和{\quorum}函数$\mybm{Q}:\mybm{V}\rightarrow2^{2^{\mybm{V}}}\backslash\left\{\emptyset\right\}$，后者用于指定每个节点的一个或多个切片，这里一个节点属于所有它自己的切片——即，$\forall v\in\mybm{Q},\forall q\in{\mybm{Q}(v)},v\in q$(注意$2^X$指的是$X$的幂集)。
+	一个联邦拜占庭一致性系统，或简称\textit{FBAS}，是一个二元组$\langle\mybm{V}, \mybm{Q}\rangle$，它包含节点集合$\mybm{V}$和{\quorum}函数$\mybm{Q}:\mybm{V}\rightarrow2^{2^{\mybm{V}}}\backslash\left\{\emptyset\right\}$，后者用于指定每个节点的一个或多个切片，这里一个节点属于所有它自己的切片——即，$\forall v\in\mybm{Q},\forall q\in{\mybm{Q}(v)},v\in q$(注意$2^X$指的是$X$的幂集)。
 \end{definition}
 
 \begin{definition}[\quorum]

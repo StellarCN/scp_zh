@@ -23,12 +23,12 @@ LaTeX环境配置
 * 项目本身
 
   - .travis.yml 改成container-based形式
-  
+
 
 * 术语翻译
 
   - liveness 存活性
-  - agreement: 协商；一致性
+  - agreement: 协商；一致性; 一致性协议
   - safety vs security需注解
   - voting: -- 抽象语境用'选举'，具体语境用'投票'
   - permanent
@@ -42,14 +42,14 @@ LaTeX环境配置
   - abort和terminate需要区分
   - single/separate 单独，独立
   - externalize
-  
+
 
 * 翻译风格
 
   - 句子不通顺或理解错误
   - 找图和表的LaTeX源码，可以的话需要替换bibtex的内容
   - 术语英文解释
-  
+
 
 * 环境
 
