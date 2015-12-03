@@ -116,7 +116,7 @@ $M$ & 每个节点所能看到的最新表决消息集合\\[-.5ex]
 
 所有来自一个节点的消息在元组$\langle \varphi,b,p,p^{\prime},P\rangle$的定义之下是全序的，这里$\varphi$是最重要的域而$P$最不重要。所有的\textsl{PREPARE}消息都在\textsl{CONFIRM}消息之前，转而对于给定的{\slot}来说在单独的\textsl{EXTERNALIZE}消息之前。\textsl{PREPARE}信息显式地包含这四个域，而\textsl{CONFIRM}和\textsl{EXTERNALIZE}包含{图\ref{fig:messages}}中所描述的值。这一序关系使得$M$值包含来自每个节点的最新表决而不依赖于时间来排序消息成为可能，这是因为网络环境可能会对消息重新排序。
 
-一些协议的细节需要解释。形如``$abort\;b^{\prime}\vee accpet(abort\;b^{\prime})$''的由\textsl{PREPARE}所蕴含的陈述并没有指明$v$是否赞成或确认$abort\;b^{\prime}$。对于\textit{接受}的定义来说这种区分并不重要。掩盖这种区分使得$v$忘记了旧的它投票提交(因此不能够投票终止)的表决--只要它为这些表决接受一个\textit{终止类}消息的话。
+一些协议的细节需要解释。形如``$abort\;b^{\prime}\vee accpet(abort\;b^{\prime})$''的由\textsl{PREPARE}所蕴含的陈述并没有指明$v$是否赞成或确认$abort\;b^{\prime}$。对于\textit{接受}的定义来说这种区分并不重要。掩盖这种区分使得$v$忘记了旧的它投票提交(因此不能够投票终止)的表决——只要它为这些表决接受一个\textit{终止类}消息的话。
 
 为了确保节点收敛于$P$，$p$和$p^{\prime}$都是必需的，这是因为定理\ref{thm:confirmed_stats_keep_liveness}要求节点重新广播它们已经接受的消息。从\textit{就绪}的定义可知，``一个节点接受为就绪态的、两个不相容的最高表决''蕴含了``所有该节点接受为就绪态的表决''。
 

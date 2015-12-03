@@ -147,69 +147,13 @@
 \input{tex/8-summary}
 \input{tex/app1-ack}
 \input{tex/app2-disclaimer}
+\input{tex/appendix}
 %\input{tex/appA-glossary}
 %\printglossaries
 
-\bibliographystyle{abbrv}
+%\bibliographystyle{abbrv}
+\bibliographystyle{plain}
 \bibliography{ref}
 
-\appendix
-\section{符号表}
-\label{sec:glossary}
-\nobreak
-\noindent
-\tabulinesep4pt
-\begin{tabu}
-  to\textwidth{l>{\footnotesize}X[-1]>{\footnotesize}X[1,l]}
-  \toprule
-\rowfont\bfseries
-符号 & \normalsize 名字 & \normalsize 定义 \\
-\midrule
-
-iff & & 当且仅当 \\
-
-$f:A\to B$ & 函数 & 函数$f$将集合$A$中的每个元素映射为集合$B$中的元素\\
-
-$f(x)$ & 函数应用 & $f$作用于参数$x$上的计算值\\
-
-$\na$ & 补 & 字母上加一横条表明它的对立面，即$\na$是$a$的反面\\
-
-$\langle a_1,\ldots,a_n\rangle$ & 元组 & 一个包含域值$a_1,\ldots, a_n$的结构(复合值)\\
-
-$A\,\wedge\, B$ & 逻辑与 & $A$和$B$都为真\\
-
-$A\,\vee\, B$ & 逻辑或 & $A$和$B$中至少有一个为真\\
-
-$\exists e,C(e)$ & 存在 & 至少存在一个值$e$使得条件$C(e)$为真\\
-
-$\forall e,C(e)$ & 所有 & 对每一个$e$，$C(e)$为真\\
-
-$\{a, b, \ldots\}$ & 集合 & 集合包含所列元素($a,b,\ldots$) \\
-
-$\{\,e \mid C(e)\,\}$ & 集合的结构式 &使得$C(e)$为真的所有元素$e$\\
-
-$\emptyset$ & 空集 & 不含任何元素的集合 \\
-
-$\lvert S\rvert$ & 势 & 集合$S$中的元素个数 \\
-
-$e\in S$ & 元素 & 元素$e$是集合$S$中的一个成员 \\
-
-$A\subseteq B$ & 子集 & 集合$A$中的每个元素也是集合$B$的元素\\
-
-$A\subsetneqq B$ & 真子集 & $A\subseteq B$ 且 $A\ne B$\\
-
-$2^A$ & 幂集 & 包含集合$A$中元素所有可能组合的集合，即$2^A=\{\,B\mid B\subseteq
-A\,\}$ \\
-
-$A\cup B$ & 并 & 包含集合$A$或集合$B$中所有元素的集合，即$A\cup B=\{\,e\mid e\in A \;\vee\;e\in B\,\}$ \\
-
-$A\cap B$ & 交 & 包含在集合$A$中且在集合$B$中所有元素的集合，即$A\cap B=\{\,e\mid e\in A\;\wedge\; e\in B\,\}$ \\
-
-$A\setminus B$ & 差 & 包含在集合$A$中而不在$B$中的所有元素的集合, 即$A\setminus B=\{\,e\mid e\in A\;\wedge\; e\notin B\,\}$ \\
-
-$\not~$ & 反 & 否定某个符号的意义，例如$e\notin A$表示$e\in A$为假, 而$\nexists e,C(e)$表示不存在这样的$e$使得$C(e)$为真\\
-
-\bottomrule
-\end{tabu}
 
 \end{document}

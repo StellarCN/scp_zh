@@ -30,24 +30,24 @@
 \begin{figure}
 \centering 
 \tabulinesep2pt
-\begin{tabu} to \textwidth{>{\bfseries}X[2,r]X[8]}\toprule
-良性行为 /\break 恶性行为 &
+\begin{tabu} to \textwidth{>{\bfseries}X[1.8,r]X[6.2,l]}\toprule
+良性 / 恶性行为的 &
 %
 节点的局部属性，独立于其它节点(除非用于切片选择验证)。\\
 %
 \midrule
-完好的 /\break 被污染的 &
+完好的 / 被污染的 &
 %
 给定节点{\quorum}切片和特定恶性行为节点集合下的属性。被污染的节点是恶性行为的或者(可能是间接地)依赖于很多恶性行为节点。\\
 %
 \midrule
-正确的 /\break 失败的 &
+正确的 / 失败的 &
 %
 给定节点的{\quorum}切片、具体协议及实际网络行为下的节点属性。共识协议的目标就在于在任何只要可能的情形下保证节点的正确性。\\
 %
 \bottomrule
 \end{tabu}
-\caption{Key properties of FBAS nodes}
+\caption{FBAS节点的关键属性}
 \label{fig:nodeprop} 
 \end{figure}
 
